@@ -1,1 +1,1 @@
-rm -fr Gau*
+rm -fr Gau* *.log *.inp *.chk

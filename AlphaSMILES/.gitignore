@@ -103,7 +103,8 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-*.inp
+/*.inp
 
 /Gau*
 *.pkl
+/*.chk
