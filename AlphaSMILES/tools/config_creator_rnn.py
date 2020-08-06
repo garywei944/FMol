@@ -11,7 +11,8 @@ config['configuration_name'] = "rnn_sample"
 
 # name of the file containing all SMILES in the folder 'data_in'
 # one SMILES per line
-config['data_input'] = "1k_rndm_zinc_drugs_clean.smi"
+config['data_input'] = "all_smiles"
+# config['data_input'] = "1k_rndm_zinc_drugs_clean.smi"
 
 '''
 those tokens are the tokens available with the file 'data_in/all_smiles'
@@ -35,8 +36,8 @@ config['C#N allowed'] = False
 # 0 : 1 classic rnn trained with all data
 # 1 : 1 rnn trained with 'nb_samples_rnn_bt' samples
 # x : x rnn trained with 'nb_samples_rnn_bt' samples
-config['bootstrapping'] = 3
-config['nb_samples_rnn_bt'] = 151
+config['bootstrapping'] = 1
+config['nb_samples_rnn_bt'] = 200000
 
 # number of epochs max used to train the rnn
 config['epochs'] = 2

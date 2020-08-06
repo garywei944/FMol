@@ -19,6 +19,8 @@ config['long_prefix'] = []
     #                      'c', '(', 'c', 'c', '3', ')', 'c', '2', 'c', '4', 'c', '3', 'c', '2', 'c', 'c', 'c', 'c',
     #                      'c', '2', 's', 'c', '4', 'c', '1']
 
+# TODO: Don't know what do these 'prefix' and 'from' do.
+
 # short prefix, use a string to represent the prefix and use it as the first node of the tree
 # represent the prefix like this : ['c', '1']
 # note : all tokens present in the prefix have to be in the RNN tokens.
@@ -27,16 +29,17 @@ config['from'] = 'node'  # 'node' or 'root'
 
 config['SMILES_simulated_per_node'] = 2
 
-config['nb_turn'] = 200
+config['nb_turn'] = 2
 
 config['exploration_vs_exploitation'] = 1
 
-config['expansion'] = "all"
-config['proba_min'] = 0.0001
+# config['expansion'] = "all"
+config['expansion'] = "proba"
+config['proba_min'] = 0.01
 
 # multitasking
-config['n_jobs'] = 4
-config['nb_core_dft'] = 12
+config['n_jobs'] = 10
+config['nb_core_dft'] = 10
 
 config['properties'] = [("mcts.properties.properties", "SAScoreProperty2DDecorator"),
                         ("mcts.properties.properties", "CycleProperty2DDecorator"),
@@ -44,7 +47,7 @@ config['properties'] = [("mcts.properties.properties", "SAScoreProperty2DDecorat
                         ("mcts.properties.properties", "DFTPropertyDecorator"),
                         ]
 
-config['scorer'] = ("mcts.scorer.scorer", 'ScorerDFT')
+config['scorer'] = ("mcts.scorer.scorer","ScorerValidSMILES", 'ScorerDFT')
 config['alpha_scorer'] = 1
 
 # Name of the general data base (in the folder *data_out/*)
