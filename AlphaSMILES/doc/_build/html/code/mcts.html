@@ -1,0 +1,920 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>2. MCTS &mdash; AlphaSMILES 0.3 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3. Property" href="property.html" />
+    <link rel="prev" title="1. RNN" href="rnn.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> AlphaSMILES
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About this project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../requirements.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../todo.html">TODO</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/prepare_your_data.html">1. Prepare your data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/train_rnn.html">2. Train your RNN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/launch_mcts.html">3. Launch your MCTS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/create_your_properties.html">4. Create your properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/create_your_scorer.html">5. Create your scorer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/hyperparameter_rnn.html">6. Look for the best RNN parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/test_your_rnn.html">7. Test your RNN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/see_your_results.html">8. See your results</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="rnn.html">1. RNN</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. MCTS</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">2.1. MCTS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-mcts.node">2.2. Node</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-mcts.smiles">2.3. SMILES</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-mcts.data_base">2.4. Data base</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="property.html">3. Property</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scorer.html">4. Scorer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">5. Tools</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">AlphaSMILES</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>2. MCTS</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/code/mcts.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="mcts">
+<h1>2. MCTS<a class="headerlink" href="#mcts" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>2.1. MCTS<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-mcts.mcts"></span><dl class="function">
+<dt id="mcts.mcts.expansion">
+<code class="descclassname">mcts.mcts.</code><code class="descname">expansion</code><span class="sig-paren">(</span><em>nodes_to_expand</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/mcts.html#expansion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.mcts.expansion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function called for the expansion of the tree,
+Add as much children as the function next_atoms of the current SMILES give</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>nodes_to_expand</strong> (<a class="reference internal" href="#mcts.node.Node" title="mcts.node.Node"><em>Node</em></a>) – the leaf selected by the function select</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the children created for the leaf</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="mcts.mcts.get_node_starting_with">
+<code class="descclassname">mcts.mcts.</code><code class="descname">get_node_starting_with</code><span class="sig-paren">(</span><em>smiles</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/mcts.html#get_node_starting_with"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.mcts.get_node_starting_with" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the node in the tree where the SMILES come from</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>smiles</strong> (<em>str</em>) – SMILES to look for</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">parent node of the SMILES</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="mcts.mcts.get_node_with_prefix">
+<code class="descclassname">mcts.mcts.</code><code class="descname">get_node_with_prefix</code><span class="sig-paren">(</span><em>node</em>, <em>smiles</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/mcts.html#get_node_with_prefix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.mcts.get_node_with_prefix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find or create node to match the smiles
+be carefull, create nodes until the smiles is complete in the tree</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Exemple:</th><td class="field-body"><p class="first">node = Node()
+node.new_child(SMILES([‘O’]))
+node.children[0].new_child(SMILES(node.children[0].smiles.element + [‘N’]))
+node.children[0].new_child(SMILES(node.children[0].smiles.element + [‘C’]))
+node.children[0].children[1].new_child(SMILES(node.children[0].children[1].smiles.element + [‘c’]))
+node.children[0].children[1].new_child(SMILES(node.children[0].children[1].smiles.element + [‘F’]))
+node.children[0].children[1].new_child(SMILES(node.children[0].children[1].smiles.element + [‘D’]))
+node.children[0].new_child(SMILES(node.children[0].smiles.element + [‘c’]))
+node.children[0].new_child(SMILES(node.children[0].smiles.element + [‘F’]))
+node.new_child(SMILES(node.smiles.element + [‘C’]))
+node.new_child(SMILES(node.smiles.element + [‘N’]))
+node.new_child(SMILES(node.smiles.element + [‘[NH]’]))
+pptree.print_tree(node.out_pptree())
+prefix = get_node_with_prefix(node, SMILES([‘O’, ‘C’, ‘F’, ‘G’]))
+pptree.print_tree(node.out_pptree())
+pptree.print_tree(prefix.out_pptree())</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>node</strong> (<a class="reference internal" href="#mcts.node.Node" title="mcts.node.Node"><em>Node</em></a>) – the root node to start the prefix</li>
+<li><strong>smiles</strong> (<a class="reference internal" href="#mcts.smiles.SMILES" title="mcts.smiles.SMILES"><em>SMILES</em></a>) – prefix to generate</li>
+</ul>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">finded or created node</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="mcts.mcts.launch">
+<code class="descclassname">mcts.mcts.</code><code class="descname">launch</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/mcts.html#launch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.mcts.launch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Launch the MCTS for nb_turn turns
+It can be stopped in a clean way (saving all current data, tree, … )
+by writting stop in the file MCTS/stop_mcts
+or sending a SIGINT or SIGTERM
+be careful a SIGKILL kill the process without saving the tree or current data
+if you are using DFT it can takes several hour before stopping it…</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="mcts.mcts.load_parameters_mcts">
+<code class="descclassname">mcts.mcts.</code><code class="descname">load_parameters_mcts</code><span class="sig-paren">(</span><em>config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/mcts.html#load_parameters_mcts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.mcts.load_parameters_mcts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load previous tree, data and info if the already exist
+otherwise create new ones
+Initialise Scorer and locks for multithreading</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="mcts.mcts.load_scores">
+<code class="descclassname">mcts.mcts.</code><code class="descname">load_scores</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/mcts.html#load_scores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.mcts.load_scores" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load the score in the tree for all data already known</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="mcts.mcts.load_tree">
+<code class="descclassname">mcts.mcts.</code><code class="descname">load_tree</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/mcts.html#load_tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.mcts.load_tree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load the tree</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the root node of the tree</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="mcts.mcts.reset_score_visit">
+<code class="descclassname">mcts.mcts.</code><code class="descname">reset_score_visit</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/mcts.html#reset_score_visit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.mcts.reset_score_visit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset the scores in the tree</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>node</strong> (<a class="reference internal" href="#mcts.node.Node" title="mcts.node.Node"><em>Node</em></a>) – root node of the tree</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="mcts.mcts.save_data_and_info">
+<code class="descclassname">mcts.mcts.</code><code class="descname">save_data_and_info</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/mcts.html#save_data_and_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.mcts.save_data_and_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the data and the statistics</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="mcts.mcts.save_tree">
+<code class="descclassname">mcts.mcts.</code><code class="descname">save_tree</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/mcts.html#save_tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.mcts.save_tree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the state of the tree</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>node</strong> (<a class="reference internal" href="#mcts.node.Node" title="mcts.node.Node"><em>Node</em></a>) – the node to save (save all the tree anyway…)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="mcts.mcts.selection">
+<code class="descclassname">mcts.mcts.</code><code class="descname">selection</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/mcts.html#selection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.mcts.selection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Select the node to use according to the ubc calculation</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>node</strong> – the root node to start the search</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the node selected</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="mcts.mcts.selection_to_delete">
+<code class="descclassname">mcts.mcts.</code><code class="descname">selection_to_delete</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/mcts.html#selection_to_delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.mcts.selection_to_delete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Select the node to use according to the ubc calcul</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>node</strong> (<a class="reference internal" href="#mcts.node.Node" title="mcts.node.Node"><em>Node</em></a>) – the root node to start the search</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the node selected</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="mcts.mcts.signal_handler">
+<code class="descclassname">mcts.mcts.</code><code class="descname">signal_handler</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/mcts.html#signal_handler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.mcts.signal_handler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handle signal for SIGINT and SIGTERM when the MCTS is running</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="mcts.mcts.simulation">
+<code class="descclassname">mcts.mcts.</code><code class="descname">simulation</code><span class="sig-paren">(</span><em>nodes</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/mcts.html#simulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.mcts.simulation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Roll-out,
+Create as much as SMILES for each new created nodes as given in the configuration file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>nodes</strong> (<em>list of Node</em>) – nodes to test during the simulation part</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">smiles created during the simulation</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="mcts.mcts.stop_mcts">
+<code class="descclassname">mcts.mcts.</code><code class="descname">stop_mcts</code><span class="sig-paren">(</span><em>signum</em>, <em>frame</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/mcts.html#stop_mcts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.mcts.stop_mcts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function called when the process get a SIGINT or SIGTERM
+The MCTS will stop at the end of the current turn</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>signum</strong> – num of the signal</li>
+<li><strong>frame</strong> – <p>.</p>
+</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">None</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="mcts.mcts.stop_next_turn">
+<code class="descclassname">mcts.mcts.</code><code class="descname">stop_next_turn</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/mcts.html#stop_next_turn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.mcts.stop_next_turn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dirty way to stop the MCTS in a clean way (without SIGINT or SIGTERM)…
+the mcts finish current turn save data and stop (if you are using dft it can take some time…)
+write “stop” in the file MCTS/stop_mcts</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="mcts.mcts.ubc">
+<code class="descclassname">mcts.mcts.</code><code class="descname">ubc</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/mcts.html#ubc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.mcts.ubc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Choose the child depending on the number of visit and the score of the child</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>node</strong> (<a class="reference internal" href="#mcts.node.Node" title="mcts.node.Node"><em>Node</em></a>) – the parent node</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the chosen child</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="mcts.mcts.update">
+<code class="descclassname">mcts.mcts.</code><code class="descname">update</code><span class="sig-paren">(</span><em>new_smiles</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/mcts.html#update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.mcts.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call the function to update nodes with all generated smiles
+Use multitheading if n_jobs in parameters is greater than 1</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>new_smiles</strong> (<em>list of SMILES</em>) – generated smiles</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="mcts.mcts.update_smiles">
+<code class="descclassname">mcts.mcts.</code><code class="descname">update_smiles</code><span class="sig-paren">(</span><em>smiles</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/mcts.html#update_smiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.mcts.update_smiles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the reward for the smiles,
+if its have already been calculated
+then he load it from the data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>smiles</strong> (<a class="reference internal" href="#mcts.smiles.SMILES" title="mcts.smiles.SMILES"><em>SMILES</em></a>) – the smile to reward</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-mcts.node">
+<span id="node"></span><h2>2.2. Node<a class="headerlink" href="#module-mcts.node" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="mcts.node.Node">
+<em class="property">class </em><code class="descclassname">mcts.node.</code><code class="descname">Node</code><span class="sig-paren">(</span><em>smiles=__</em>, <em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/node.html#Node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.node.Node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Representation of a node in the MCTS tree
+Each node own its SMILES, number of visits and score</p>
+<dl class="method">
+<dt id="mcts.node.Node.echo">
+<code class="descname">echo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/node.html#Node.echo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.node.Node.echo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print the current tree</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mcts.node.Node.fully_expanded">
+<code class="descname">fully_expanded</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/node.html#Node.fully_expanded"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.node.Node.fully_expanded" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if the number of children is equal to the size of the vocabulary (minus 2 for n and &amp;)
+or if the SMILES of the node is greater than 80 (maximum for the RNN)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">True if the node is terminal in the tree else False</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mcts.node.Node.get_height">
+<code class="descname">get_height</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/node.html#Node.get_height"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.node.Node.get_height" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the height of the node</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the height of the node</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mcts.node.Node.get_size">
+<code class="descname">get_size</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/node.html#Node.get_size"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.node.Node.get_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the size of the Node</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the size of the Node</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mcts.node.Node.new_child">
+<code class="descname">new_child</code><span class="sig-paren">(</span><em>child_smile</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/node.html#Node.new_child"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.node.Node.new_child" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a new child to the current node</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>child_smile</strong> (<a class="reference internal" href="#mcts.smiles.SMILES" title="mcts.smiles.SMILES"><em>SMILES</em></a>) – the SMILES used to create the new node</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mcts.node.Node.out_pptree">
+<code class="descname">out_pptree</code><span class="sig-paren">(</span><em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/node.html#Node.out_pptree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.node.Node.out_pptree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recursive function
+Return instance of pptree module to print the tree</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>parent</strong> (<a class="reference internal" href="#mcts.node.Node" title="mcts.node.Node"><em>Node</em></a>) – parent of the tree (for the recursive part of the function)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">instance of pptree.Node</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mcts.node.Node.update">
+<code class="descname">update</code><span class="sig-paren">(</span><em>reward</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/node.html#Node.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.node.Node.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recursive function to update a Node</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>reward</strong> (<em>float</em>) – reward to update the score of the Node</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-mcts.smiles">
+<span id="smiles"></span><h2>2.3. SMILES<a class="headerlink" href="#module-mcts.smiles" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="mcts.smiles.SMILES">
+<em class="property">class </em><code class="descclassname">mcts.smiles.</code><code class="descname">SMILES</code><span class="sig-paren">(</span><em>element=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/smiles.html#SMILES"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.smiles.SMILES" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class representing a SMILES</p>
+<dl class="method">
+<dt id="mcts.smiles.SMILES.calculation_of_properties">
+<code class="descname">calculation_of_properties</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/smiles.html#SMILES.calculation_of_properties"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.smiles.SMILES.calculation_of_properties" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculation of different properties asked in the config file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mcts.smiles.SMILES.end_smiles">
+<code class="descname">end_smiles</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/smiles.html#SMILES.end_smiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.smiles.SMILES.end_smiles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Complete the current SMILES by using the RNN model
+Add tokens until getting a ‘n’</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the new SMILES generated</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mcts.smiles.SMILES.end_smiles_with_model">
+<code class="descname">end_smiles_with_model</code><span class="sig-paren">(</span><em>index_model</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/smiles.html#SMILES.end_smiles_with_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.smiles.SMILES.end_smiles_with_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Complete the SMILES until reaching ‘n’ with the model given</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>index_model</strong> (<em>int</em>) – index of the model</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the new SMILES generated</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mcts.smiles.SMILES.next_atom">
+<code class="descname">next_atom</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/smiles.html#SMILES.next_atom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.smiles.SMILES.next_atom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate one new SMILES with one more token than the current SMILES by using the RNN model</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the next SMILES</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mcts.smiles.SMILES.next_atoms">
+<code class="descname">next_atoms</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/smiles.html#SMILES.next_atoms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.smiles.SMILES.next_atoms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate new SMILES with one more token than the current SMILES by using the RNN model
+SMILES are selected is their probability is greater than 0.0001% according to the RNN model</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the list of more probables next SMILES</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mcts.smiles.SMILES.terminal">
+<code class="descname">terminal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/smiles.html#SMILES.terminal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.smiles.SMILES.terminal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if the current SMILES is complete (if there is a ‘n’ at the end of the SMILES)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">True if the SMILES is terminal</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="mcts.smiles.int_to_smile">
+<code class="descclassname">mcts.smiles.</code><code class="descname">int_to_smile</code><span class="sig-paren">(</span><em>list_of_int</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/smiles.html#int_to_smile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.smiles.int_to_smile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the list of int to list of token according to the vocabulary</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>list_of_int</strong> (<em>list of int</em>) – list of int representing the SMILES</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">list of token</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="mcts.smiles.mol_to_int">
+<code class="descclassname">mcts.smiles.</code><code class="descname">mol_to_int</code><span class="sig-paren">(</span><em>list_of_mol</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/smiles.html#mol_to_int"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.smiles.mol_to_int" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the list of tokens to list of int according to their index in the vocabulary</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>list_of_mol</strong> (<em>list of str</em>) – list of tokens</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">list of indices of the tokens</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-mcts.data_base">
+<span id="data-base"></span><h2>2.4. Data base<a class="headerlink" href="#module-mcts.data_base" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="mcts.data_base.create">
+<code class="descclassname">mcts.data_base.</code><code class="descname">create</code><span class="sig-paren">(</span><em>smiles</em>, <em>properties</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/data_base.html#create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.data_base.create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a new SMILES in the data base if it doesn’t already exist.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>smiles</strong> (<em>str</em>) – the SMILES to create</li>
+<li><strong>properties</strong> (<em>set</em>) – The properties of the SMILES</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">True if the creation end up well, False otherwise</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="mcts.data_base.delete">
+<code class="descclassname">mcts.data_base.</code><code class="descname">delete</code><span class="sig-paren">(</span><em>smiles</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/data_base.html#delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.data_base.delete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete the SMILES from the data base</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>smiles</strong> (<em>str</em>) – the SMILES to delete</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the properties of the SMILES if the deletion end up well, None otherwise</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="mcts.data_base.load_data_base">
+<code class="descclassname">mcts.data_base.</code><code class="descname">load_data_base</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/data_base.html#load_data_base"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.data_base.load_data_base" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prepare the data_base</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="mcts.data_base.save_data_base">
+<code class="descclassname">mcts.data_base.</code><code class="descname">save_data_base</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/data_base.html#save_data_base"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.data_base.save_data_base" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the data base in the “p.config[“data_base”].json” file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="mcts.data_base.select">
+<code class="descclassname">mcts.data_base.</code><code class="descname">select</code><span class="sig-paren">(</span><em>smiles</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/data_base.html#select"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.data_base.select" title="Permalink to this definition">¶</a></dt>
+<dd><p>Select a SMILES from the data base, return None if the SMILES is not in the data base.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>smiles</strong> (<em>str</em>) – SMILES to look for in the data base</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None or SMILES</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="mcts.data_base.update">
+<code class="descclassname">mcts.data_base.</code><code class="descname">update</code><span class="sig-paren">(</span><em>smiles</em>, <em>properties</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/data_base.html#update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.data_base.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update a SMILES with properties given in parameters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>smiles</strong> (<em>str</em>) – the SMILES to update</li>
+<li><strong>properties</strong> (<em>set</em>) – The new properties</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">True if the update end up well, False otherwise</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="property.html" class="btn btn-neutral float-right" title="3. Property" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="rnn.html" class="btn btn-neutral float-left" title="1. RNN" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Cyril-Grl
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

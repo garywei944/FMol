@@ -1,0 +1,315 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>4. Scorer &mdash; AlphaSMILES 0.3 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="5. Tools" href="tools.html" />
+    <link rel="prev" title="3. Property" href="property.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> AlphaSMILES
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About this project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../requirements.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../todo.html">TODO</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/prepare_your_data.html">1. Prepare your data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/train_rnn.html">2. Train your RNN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/launch_mcts.html">3. Launch your MCTS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/create_your_properties.html">4. Create your properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/create_your_scorer.html">5. Create your scorer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/hyperparameter_rnn.html">6. Look for the best RNN parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/test_your_rnn.html">7. Test your RNN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/see_your_results.html">8. See your results</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="rnn.html">1. RNN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcts.html">2. MCTS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="property.html">3. Property</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">4. Scorer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">5. Tools</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">AlphaSMILES</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>4. Scorer</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/code/scorer.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-mcts.scorer.scorer">
+<span id="scorer"></span><h1>4. Scorer<a class="headerlink" href="#module-mcts.scorer.scorer" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="mcts.scorer.scorer.Scorer">
+<em class="property">class </em><code class="descclassname">mcts.scorer.scorer.</code><code class="descname">Scorer</code><span class="sig-paren">(</span><em>alpha=0.5</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/scorer/scorer.html#Scorer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.scorer.scorer.Scorer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract class for the calculation of the score of a SMILES</p>
+<dl class="method">
+<dt id="mcts.scorer.scorer.Scorer.reward">
+<code class="descname">reward</code><span class="sig-paren">(</span><em>smiles</em>, <em>already</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/scorer/scorer.html#Scorer.reward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.scorer.scorer.Scorer.reward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method giving the reward depending on the score of the SMILES and if it have already been calculated</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>smiles</strong> – the SMILES to reward</li>
+<li><strong>already</strong> – True if the SMILES score have already been calculated</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">the reward of the SMILES</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mcts.scorer.scorer.Scorer.score">
+<code class="descname">score</code><span class="sig-paren">(</span><em>smiles</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/scorer/scorer.html#Scorer.score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.scorer.scorer.Scorer.score" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstact method to calculate the score</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>smiles</strong> – the SMILES object to score</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the score of the SMILES</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="mcts.scorer.scorer.ScorerDFT">
+<em class="property">class </em><code class="descclassname">mcts.scorer.scorer.</code><code class="descname">ScorerDFT</code><span class="sig-paren">(</span><em>alpha=0.5</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/scorer/scorer.html#ScorerDFT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.scorer.scorer.ScorerDFT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sub class of scorer
+Used to reward the DFT score of a SMILES</p>
+<dl class="method">
+<dt id="mcts.scorer.scorer.ScorerDFT.score">
+<code class="descname">score</code><span class="sig-paren">(</span><em>smiles</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/scorer/scorer.html#ScorerDFT.score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.scorer.scorer.ScorerDFT.score" title="Permalink to this definition">¶</a></dt>
+<dd><p>Score the SMILES</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>smiles</strong> (<a class="reference internal" href="mcts.html#mcts.smiles.SMILES" title="mcts.smiles.SMILES"><em>SMILES</em></a>) – SMILES to score</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">-100 if the SMILES is not valid, -0.5 if the DFT calcul didn’t end a value above 0 depending on the peak of oscillator strength otherwise</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="mcts.scorer.scorer.ScorerValidSMILES">
+<em class="property">class </em><code class="descclassname">mcts.scorer.scorer.</code><code class="descname">ScorerValidSMILES</code><span class="sig-paren">(</span><em>alpha=0.5</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/scorer/scorer.html#ScorerValidSMILES"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.scorer.scorer.ScorerValidSMILES" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sub class of Scorer
+Used to reward on the validity of the generated SMILES</p>
+<dl class="method">
+<dt id="mcts.scorer.scorer.ScorerValidSMILES.score">
+<code class="descname">score</code><span class="sig-paren">(</span><em>smiles</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/scorer/scorer.html#ScorerValidSMILES.score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.scorer.scorer.ScorerValidSMILES.score" title="Permalink to this definition">¶</a></dt>
+<dd><p>Score the SMILES</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>smiles</strong> – SMILES to score</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">1 if the SMILES if valid else -1</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="tools.html" class="btn btn-neutral float-right" title="5. Tools" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="property.html" class="btn btn-neutral float-left" title="3. Property" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Cyril-Grl
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

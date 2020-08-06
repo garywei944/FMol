@@ -1,0 +1,333 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>tools.plot_wavelength &mdash; AlphaSMILES 0.3 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> AlphaSMILES
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About this project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../requirements.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../todo.html">TODO</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/prepare_your_data.html">1. Prepare your data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/train_rnn.html">2. Train your RNN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/launch_mcts.html">3. Launch your MCTS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/create_your_properties.html">4. Create your properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/create_your_scorer.html">5. Create your scorer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/hyperparameter_rnn.html">6. Look for the best RNN parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/test_your_rnn.html">7. Test your RNN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/see_your_results.html">8. See your results</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../code/rnn.html">1. RNN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../code/mcts.html">2. MCTS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../code/property.html">3. Property</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../code/scorer.html">4. Scorer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../code/tools.html">5. Tools</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">AlphaSMILES</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>tools.plot_wavelength</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for tools.plot_wavelength</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">textwrap</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.colors</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">mcts</span> <span class="k">import</span> <span class="n">parameters</span> <span class="k">as</span> <span class="n">p</span>
+
+
+<div class="viewcode-block" id="wavelength_to_rgb"><a class="viewcode-back" href="../../code/tools.html#tools.plot_wavelength.wavelength_to_rgb">[docs]</a><span class="k">def</span> <span class="nf">wavelength_to_rgb</span><span class="p">(</span><span class="n">wavelength</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.8</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    taken from http://www.noah.org/wiki/Wavelength_to_RGB_in_Python</span>
+<span class="sd">    This converts a given wavelength of light to an</span>
+<span class="sd">    approximate RGB color value. The wavelength must be given</span>
+<span class="sd">    in nanometers in the range from 380 nm through 750 nm</span>
+<span class="sd">    (789 THz through 400 THz).</span>
+
+<span class="sd">    Based on code by Dan Bruton</span>
+<span class="sd">    http://www.physics.sfasu.edu/astro/color/spectra.html</span>
+<span class="sd">    Additionally alpha value set to 0.5 outside range</span>
+
+<span class="sd">    :param wavelength: wavelength</span>
+<span class="sd">    :param gamma: gamma</span>
+<span class="sd">    :return: color (r, g, b, a)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">wavelength</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">wavelength</span><span class="p">)</span>
+    <span class="k">if</span> <span class="mi">380</span> <span class="o">&lt;=</span> <span class="n">wavelength</span> <span class="o">&lt;=</span> <span class="mi">750</span><span class="p">:</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="mf">1.</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="k">if</span> <span class="n">wavelength</span> <span class="o">&lt;</span> <span class="mi">380</span><span class="p">:</span>
+        <span class="n">wavelength</span> <span class="o">=</span> <span class="mf">380.</span>
+    <span class="k">if</span> <span class="n">wavelength</span> <span class="o">&gt;</span> <span class="mi">750</span><span class="p">:</span>
+        <span class="n">wavelength</span> <span class="o">=</span> <span class="mf">750.</span>
+    <span class="k">if</span> <span class="mi">380</span> <span class="o">&lt;=</span> <span class="n">wavelength</span> <span class="o">&lt;=</span> <span class="mi">440</span><span class="p">:</span>
+        <span class="n">attenuation</span> <span class="o">=</span> <span class="mf">0.3</span> <span class="o">+</span> <span class="mf">0.7</span> <span class="o">*</span> <span class="p">(</span><span class="n">wavelength</span> <span class="o">-</span> <span class="mi">380</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">440</span> <span class="o">-</span> <span class="mi">380</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="p">((</span><span class="o">-</span><span class="p">(</span><span class="n">wavelength</span> <span class="o">-</span> <span class="mi">440</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">440</span> <span class="o">-</span> <span class="mi">380</span><span class="p">))</span> <span class="o">*</span> <span class="n">attenuation</span><span class="p">)</span> <span class="o">**</span> <span class="n">gamma</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">attenuation</span><span class="p">)</span> <span class="o">**</span> <span class="n">gamma</span>
+    <span class="k">elif</span> <span class="mi">440</span> <span class="o">&lt;=</span> <span class="n">wavelength</span> <span class="o">&lt;=</span> <span class="mi">490</span><span class="p">:</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="p">((</span><span class="n">wavelength</span> <span class="o">-</span> <span class="mi">440</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">490</span> <span class="o">-</span> <span class="mi">440</span><span class="p">))</span> <span class="o">**</span> <span class="n">gamma</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="k">elif</span> <span class="mi">490</span> <span class="o">&lt;=</span> <span class="n">wavelength</span> <span class="o">&lt;=</span> <span class="mi">510</span><span class="p">:</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">wavelength</span> <span class="o">-</span> <span class="mi">510</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">510</span> <span class="o">-</span> <span class="mi">490</span><span class="p">))</span> <span class="o">**</span> <span class="n">gamma</span>
+    <span class="k">elif</span> <span class="mi">510</span> <span class="o">&lt;=</span> <span class="n">wavelength</span> <span class="o">&lt;=</span> <span class="mi">580</span><span class="p">:</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="p">((</span><span class="n">wavelength</span> <span class="o">-</span> <span class="mi">510</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">580</span> <span class="o">-</span> <span class="mi">510</span><span class="p">))</span> <span class="o">**</span> <span class="n">gamma</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">elif</span> <span class="mi">580</span> <span class="o">&lt;=</span> <span class="n">wavelength</span> <span class="o">&lt;=</span> <span class="mi">645</span><span class="p">:</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">wavelength</span> <span class="o">-</span> <span class="mi">645</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">645</span> <span class="o">-</span> <span class="mi">580</span><span class="p">))</span> <span class="o">**</span> <span class="n">gamma</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">elif</span> <span class="mi">645</span> <span class="o">&lt;=</span> <span class="n">wavelength</span> <span class="o">&lt;=</span> <span class="mi">750</span><span class="p">:</span>
+        <span class="n">attenuation</span> <span class="o">=</span> <span class="mf">0.3</span> <span class="o">+</span> <span class="mf">0.7</span> <span class="o">*</span> <span class="p">(</span><span class="mi">750</span> <span class="o">-</span> <span class="n">wavelength</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">750</span> <span class="o">-</span> <span class="mi">645</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">attenuation</span><span class="p">)</span> <span class="o">**</span> <span class="n">gamma</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">return</span> <span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span></div>
+
+
+<div class="viewcode-block" id="plot_wl"><a class="viewcode-back" href="../../code/tools.html#tools.plot_wavelength.plot_wl">[docs]</a><span class="k">def</span> <span class="nf">plot_wl</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">smiles</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate a plot of the SMILES with the wavelength and oscillator strength peaks</span>
+
+<span class="sd">    :param data: data dict</span>
+<span class="sd">    :type data: dict</span>
+<span class="sd">    :param smiles: the SMILES to plot</span>
+<span class="sd">    :type smiles: str</span>
+<span class="sd">    :return: None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="n">smiles</span><span class="p">][</span><span class="s2">&quot;valid&quot;</span><span class="p">]:</span>
+        <span class="n">clim</span> <span class="o">=</span> <span class="p">(</span><span class="mi">350</span><span class="p">,</span> <span class="mi">780</span><span class="p">)</span>
+        <span class="n">norm</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">Normalize</span><span class="p">(</span><span class="o">*</span><span class="n">clim</span><span class="p">)</span>
+        <span class="n">wl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">clim</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">clim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">colorlist</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">norm</span><span class="p">(</span><span class="n">wl</span><span class="p">),</span> <span class="p">[</span><span class="n">wavelength_to_rgb</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">wl</span><span class="p">]))</span>
+        <span class="n">spectralmap</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">LinearSegmentedColormap</span><span class="o">.</span><span class="n">from_list</span><span class="p">(</span><span class="s2">&quot;spectrum&quot;</span><span class="p">,</span> <span class="n">colorlist</span><span class="p">)</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">tight_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">wl</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="n">smiles</span><span class="p">][</span><span class="s1">&#39;dft&#39;</span><span class="p">]:</span>
+            <span class="n">wl</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="s1">&#39;nm&#39;</span><span class="p">])</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="s1">&#39;f&#39;</span><span class="p">])</span>
+        <span class="n">wl</span> <span class="o">=</span> <span class="n">wl</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">f</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">wavelengths</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">w</span><span class="p">,</span> <span class="n">f_</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">wl</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">w</span> <span class="o">&gt;</span> <span class="mi">1000</span><span class="p">:</span>
+                <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">w</span><span class="p">,</span> <span class="n">f_</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">c</span> <span class="o">=</span> <span class="n">wavelength_to_rgb</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">f_</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">c</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">out</span><span class="p">:</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="k">for</span> <span class="n">w</span><span class="p">,</span> <span class="n">f_</span> <span class="ow">in</span> <span class="n">out</span><span class="p">:</span>
+                <span class="n">text</span> <span class="o">+=</span> <span class="s2">&quot; +&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; nm, &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">f_</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">800</span><span class="p">,</span> <span class="mf">0.55</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+        <span class="n">x_</span><span class="p">,</span> <span class="n">y_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">wavelengths</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+        <span class="n">extent</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">wavelengths</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">wavelengths</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">x_</span><span class="p">,</span> <span class="n">clim</span><span class="o">=</span><span class="n">clim</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="n">extent</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">spectralmap</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Wavelength (nm)&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Oscillator Strength&#39;</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;long_prefix&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="n">smiles</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{:4d}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">smiles</span><span class="p">][</span><span class="s2">&quot;id&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot; : &quot;</span> <span class="o">+</span> <span class="n">s</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">wavelengths</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;../data_out/&quot;</span> <span class="o">+</span> <span class="n">p</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;configuration_name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;/plot/&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">smiles</span><span class="p">][</span><span class="s2">&quot;id&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;_wl.png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Cyril-Grl
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

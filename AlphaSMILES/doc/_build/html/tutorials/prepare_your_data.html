@@ -1,0 +1,274 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>1. Prepare your data &mdash; AlphaSMILES 0.3 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="2. Train your RNN" href="train_rnn.html" />
+    <link rel="prev" title="TODO" href="../todo.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> AlphaSMILES
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About this project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../requirements.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../todo.html">TODO</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorial</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1. Prepare your data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="train_rnn.html">2. Train your RNN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="launch_mcts.html">3. Launch your MCTS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_your_properties.html">4. Create your properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_your_scorer.html">5. Create your scorer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hyperparameter_rnn.html">6. Look for the best RNN parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test_your_rnn.html">7. Test your RNN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="see_your_results.html">8. See your results</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../code/rnn.html">1. RNN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code/mcts.html">2. MCTS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code/property.html">3. Property</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code/scorer.html">4. Scorer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code/tools.html">5. Tools</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">AlphaSMILES</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>1. Prepare your data</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/tutorials/prepare_your_data.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="prepare-your-data">
+<h1>1. Prepare your data<a class="headerlink" href="#prepare-your-data" title="Permalink to this headline">¶</a></h1>
+<p>Here we will present you how to configurate the project. Think about installing all the library needed see <a class="reference external" href="../about.html">requirement</a> .</p>
+<p>In order to train the RNN you need data. For this project, we use SMILES to represent the molecules.</p>
+<p>Your SMILES file have to be in the <cite>data_in/</cite> repertory. One SMILES per line.</p>
+<p>The currents data files are :</p>
+<ul>
+<li><p class="first"><em>all_smiles</em> : SMILES extracted from the Riken data base:</p>
+<blockquote>
+<div><ul class="simple">
+<li>3,346,716 SMILES in <em>all_smiles</em> file (80 Mo)</li>
+<li>3,042,980 SMILES in <em>all_smiles_unique</em> file (without doubles) (73.2 Mo)</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first"><em>emolecules</em> : SMILES from <a class="reference external" href="https://www.emolecules.com/">eMolecules</a> :</p>
+<blockquote>
+<div><ul class="simple">
+<li>22,396,732 SMILES in <em>emolecules</em> file (870 Mo)</li>
+<li>22,165,087 SMILES in  <em>emolecules_clean</em> (without SMILES with a dot) (860 Mo)</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first"><em>pubchem</em> : SMILES for PubChemQC</p>
+<blockquote>
+<div><ul class="simple">
+<li>90,131,772 SMILES in <em>pubchem</em> file (4.6 Go)</li>
+<li>76,182,195 SMILES in <em>pubchem_unique</em> file (3.8 Go)</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<p>You can use the <em>clean_data</em> function to delete the “.” from the SMILES.</p>
+<dl class="function">
+<dt id="data_in.clean_data.clean_data">
+<code class="descclassname">data_in.clean_data.</code><code class="descname">clean_data</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/data_in/clean_data.html#clean_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#data_in.clean_data.clean_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a new file with only SMILES without dot
+Keep in a delete file the SMILES not accepted</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>file</strong> – file containing SMILES, one per line.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="train_rnn.html" class="btn btn-neutral float-right" title="2. Train your RNN" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../todo.html" class="btn btn-neutral float-left" title="TODO" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Cyril-Grl
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,322 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>AlphaSMILES &mdash; AlphaSMILES 0.3 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="About this project" href="about.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="#" class="icon icon-home"> AlphaSMILES
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About this project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="requirements.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="todo.html">TODO</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/prepare_your_data.html">1. Prepare your data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/train_rnn.html">2. Train your RNN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/launch_mcts.html">3. Launch your MCTS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/create_your_properties.html">4. Create your properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/create_your_scorer.html">5. Create your scorer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/hyperparameter_rnn.html">6. Look for the best RNN parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/test_your_rnn.html">7. Test your RNN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/see_your_results.html">8. See your results</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="code/rnn.html">1. RNN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code/mcts.html">2. MCTS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code/property.html">3. Property</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code/scorer.html">4. Scorer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code/tools.html">5. Tools</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">AlphaSMILES</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#">Docs</a> &raquo;</li>
+        
+      <li>AlphaSMILES</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="alphasmiles">
+<h1>AlphaSMILES<a class="headerlink" href="#alphasmiles" title="Permalink to this headline">¶</a></h1>
+<p>AlphaSMILES is a program that use a Monte Carlo Tree Search (MCTS) and a Recurrent Neural Network (RNN) to generate molecules.</p>
+<div class="section" id="how-to-use-it">
+<h2>How to use it<a class="headerlink" href="#how-to-use-it" title="Permalink to this headline">¶</a></h2>
+<p>See the <a class="reference external" href="http://forge.info.univ-angers.fr/~cgrelier/AlphaSMILES/index.html">doc</a> to see how to configure your research.</p>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="about.html">About this project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="requirements.html">Requirements</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="requirements.html#installation-with-pip">Installation with pip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="requirements.html#installation-with-anaconda">Installation with Anaconda</a></li>
+<li class="toctree-l2"><a class="reference internal" href="requirements.html#troubles-with-theanos">Troubles with Theanos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="requirements.html#other-libraries">Other libraries</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="todo.html">TODO</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="todo.html#parser">Parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="todo.html#asynchronous-task-and-boinc">asynchronous task and Boinc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="todo.html#api">API</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/prepare_your_data.html">1. Prepare your data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/train_rnn.html">2. Train your RNN</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/train_rnn.html#configure-the-rnn">2.1. Configure the RNN</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/train_rnn.html#configuration-name">2.1.1. configuration_name</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/train_rnn.html#data-input">2.1.2. data_input</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/train_rnn.html#tokens-allowed">2.1.3. tokens_allowed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/train_rnn.html#c-n-allowed">2.1.4. C#N allowed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/train_rnn.html#bootstrapping-and-nb-samples-rnn-bt">2.1.5. bootstrapping and nb_samples_rnn_bt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/train_rnn.html#epochs">2.1.6. epochs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/train_rnn.html#learning-rate">2.1.7. learning_rate</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/train_rnn.html#train-it">2.2. Train it</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/launch_mcts.html">3. Launch your MCTS</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/launch_mcts.html#configuration">3.1. Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/launch_mcts.html#configuration-name">3.1.1. configuration_name</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/launch_mcts.html#rnn-repertory">3.1.2. rnn_repertory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/launch_mcts.html#long-prefix">3.1.3. long_prefix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/launch_mcts.html#prefix">3.1.4. prefix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/launch_mcts.html#smiles-simulated-per-node">3.1.5. SMILES_simulated_per_node</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/launch_mcts.html#nb-turn">3.1.6. nb_turn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/launch_mcts.html#exploration-vs-exploitation">3.1.7. exploration_vs_exploitation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/launch_mcts.html#expansion-and-proba-min">3.1.8. expansion and proba_min</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/launch_mcts.html#n-jobs-and-nb-core-dft">3.1.9. n_jobs and nb_core_dft</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/launch_mcts.html#properties">3.1.10. properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/launch_mcts.html#scorer-and-alpha-scorer">3.1.11. scorer and alpha_scorer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/launch_mcts.html#data-base">3.1.12. data_base</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/launch_mcts.html#launch-the-mcts">3.2. Launch the MCTS</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/create_your_properties.html">4. Create your properties</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/create_your_properties.html#build-your-new-property">4.1. Build your new property</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/create_your_properties.html#use-it-in-your-project">4.2. Use it in your project</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/create_your_scorer.html">5. Create your scorer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/hyperparameter_rnn.html">6. Look for the best RNN parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/test_your_rnn.html">7. Test your RNN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/see_your_results.html">8. See your results</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="code/rnn.html">1. RNN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code/mcts.html">2. MCTS</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="code/mcts.html#id1">2.1. MCTS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code/mcts.html#module-mcts.node">2.2. Node</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code/mcts.html#module-mcts.smiles">2.3. SMILES</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code/mcts.html#module-mcts.data_base">2.4. Data base</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="code/property.html">3. Property</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="code/property.html#module-mcts.properties.properties">3.1. Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code/property.html#module-mcts.properties.dft">3.2. DFT</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="code/scorer.html">4. Scorer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code/tools.html">5. Tools</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="about.html" class="btn btn-neutral float-right" title="About this project" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Cyril-Grl
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

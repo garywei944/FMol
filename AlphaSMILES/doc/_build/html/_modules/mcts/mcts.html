@@ -1,0 +1,696 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>mcts.mcts &mdash; AlphaSMILES 0.3 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> AlphaSMILES
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About this project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../requirements.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../todo.html">TODO</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/prepare_your_data.html">1. Prepare your data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/train_rnn.html">2. Train your RNN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/launch_mcts.html">3. Launch your MCTS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/create_your_properties.html">4. Create your properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/create_your_scorer.html">5. Create your scorer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/hyperparameter_rnn.html">6. Look for the best RNN parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/test_your_rnn.html">7. Test your RNN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/see_your_results.html">8. See your results</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../code/rnn.html">1. RNN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../code/mcts.html">2. MCTS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../code/property.html">3. Property</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../code/scorer.html">4. Scorer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../code/tools.html">5. Tools</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">AlphaSMILES</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>mcts.mcts</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for mcts.mcts</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">signal</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">threading</span>
+<span class="kn">from</span> <span class="nn">joblib</span> <span class="k">import</span> <span class="n">Parallel</span><span class="p">,</span> <span class="n">delayed</span>
+
+<span class="kn">from</span> <span class="nn">mcts</span> <span class="k">import</span> <span class="n">parameters</span> <span class="k">as</span> <span class="n">p</span>
+<span class="kn">from</span> <span class="nn">mcts</span> <span class="k">import</span> <span class="n">data_base</span>
+<span class="kn">from</span> <span class="nn">mcts.smiles</span> <span class="k">import</span> <span class="n">SMILES</span>
+<span class="kn">from</span> <span class="nn">mcts.node</span> <span class="k">import</span> <span class="n">Node</span>
+<span class="kn">from</span> <span class="nn">rnn.rnn</span> <span class="k">import</span> <span class="n">load_model</span>
+
+
+<div class="viewcode-block" id="load_parameters_mcts"><a class="viewcode-back" href="../../code/mcts.html#mcts.mcts.load_parameters_mcts">[docs]</a><span class="k">def</span> <span class="nf">load_parameters_mcts</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Load previous tree, data and info if the already exist</span>
+<span class="sd">    otherwise create new ones</span>
+<span class="sd">    Initialise Scorer and locks for multithreading</span>
+
+<span class="sd">    :return: None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;mcts/configurations/&#39;</span> <span class="o">+</span> <span class="n">config</span> <span class="o">+</span> <span class="s2">&quot;.json&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">c</span><span class="p">:</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">directory</span> <span class="o">=</span> <span class="s1">&#39;data_out/&#39;</span> <span class="o">+</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;configuration_name&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">f_tree</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">directory</span> <span class="o">+</span> <span class="s2">&quot;tree.pckl&quot;</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">f_info</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">directory</span> <span class="o">+</span> <span class="s2">&quot;info.json&quot;</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">f_data</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">directory</span> <span class="o">+</span> <span class="s2">&quot;data.json&quot;</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">f_stat</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">directory</span> <span class="o">+</span> <span class="s2">&quot;stat.csv&quot;</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">r_dft</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">directory</span> <span class="o">+</span> <span class="s2">&quot;dft/&quot;</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">f_stop</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">directory</span> <span class="o">+</span> <span class="s2">&quot;stop.txt&quot;</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">lock_update_data</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">lock_update_node</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">lock_sa_score</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">directory</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">f_tree</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">f_info</span><span class="p">)</span>\
+            <span class="ow">or</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">f_stat</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">f_data</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">directory</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">directory</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">r_dft</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">r_dft</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">f_stop</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">stop</span><span class="p">:</span>
+            <span class="n">stop</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">f_stat</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">stat</span><span class="p">:</span>
+            <span class="n">stat</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;New tree&quot;</span><span class="p">)</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">tree_info</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">tree_info</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">info_created</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">tree_info</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">info_good</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">tree_info</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">info_bad</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">tree_info</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">info_alrd_tested</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;from&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;root&#39;</span><span class="p">:</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">tree</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">SMILES</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">tree</span> <span class="o">=</span> <span class="n">Node</span><span class="p">()</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">turn</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Loading previous tree, data and info&quot;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">f_tree</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">pickler</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">Unpickler</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">tree</span> <span class="o">=</span> <span class="n">pickler</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+            <span class="k">while</span> <span class="n">p</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">parent</span><span class="p">:</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">tree</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">parent</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">f_data</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">f_info</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">tree_info</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">turn</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">f_stat</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;from&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;root&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">smiles</span><span class="o">.</span><span class="n">element</span> <span class="o">!=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Root node different from previous execution&quot;</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;rnn_models/&#39;</span> <span class="o">+</span> <span class="n">p</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;rnn_repertory&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;/config.json&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">info_rnn</span><span class="p">:</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">tokens</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">info_rnn</span><span class="p">)[</span><span class="s1">&#39;tokens&#39;</span><span class="p">]</span>
+
+    <span class="n">data_base</span><span class="o">.</span><span class="n">load_data_base</span><span class="p">()</span>
+
+    <span class="n">reset_score_visit</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">tree</span><span class="p">)</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">scorer</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="nb">__import__</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;scorer&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">fromlist</span><span class="o">=</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;scorer&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]]),</span> <span class="n">p</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;scorer&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">])(</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;alpha_scorer&#39;</span><span class="p">])</span>
+
+    <span class="n">load_scores</span><span class="p">()</span>
+
+    <span class="n">p</span><span class="o">.</span><span class="n">models</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;rnn_repertory&#39;</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="stop_mcts"><a class="viewcode-back" href="../../code/mcts.html#mcts.mcts.stop_mcts">[docs]</a><span class="k">def</span> <span class="nf">stop_mcts</span><span class="p">(</span><span class="n">signum</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Function called when the process get a SIGINT or SIGTERM</span>
+<span class="sd">    The MCTS will stop at the end of the current turn</span>
+
+<span class="sd">    :param signum: num of the signal</span>
+<span class="sd">    :param frame: .</span>
+<span class="sd">    :return: None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The process have been terminated (singal : &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">signum</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Please wait for the end of this turn so the current data will be saved&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">stop</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="signal_handler"><a class="viewcode-back" href="../../code/mcts.html#mcts.mcts.signal_handler">[docs]</a><span class="k">def</span> <span class="nf">signal_handler</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Handle signal for SIGINT and SIGTERM when the MCTS is running</span>
+
+<span class="sd">    :return: None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">signal</span><span class="o">.</span><span class="n">signal</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">SIGINT</span><span class="p">,</span> <span class="n">stop_mcts</span><span class="p">)</span>
+    <span class="n">signal</span><span class="o">.</span><span class="n">signal</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">SIGTERM</span><span class="p">,</span> <span class="n">stop_mcts</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="stop_next_turn"><a class="viewcode-back" href="../../code/mcts.html#mcts.mcts.stop_next_turn">[docs]</a><span class="k">def</span> <span class="nf">stop_next_turn</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Dirty way to stop the MCTS in a clean way (without SIGINT or SIGTERM)...</span>
+<span class="sd">    the mcts finish current turn save data and stop (if you are using dft it can take some time...)</span>
+<span class="sd">    write &quot;stop&quot; in the file MCTS/stop_mcts</span>
+
+<span class="sd">    :return: None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">f_stop</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">stop</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="k">if</span> <span class="s2">&quot;stop&quot;</span> <span class="ow">in</span> <span class="n">stop</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;MCTS stopped with signal &#39;stop&#39; in &#39;</span><span class="si">%s</span><span class="s2">&#39; file&quot;</span> <span class="o">%</span> <span class="n">p</span><span class="o">.</span><span class="n">f_stop</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="launch"><a class="viewcode-back" href="../../code/mcts.html#mcts.mcts.launch">[docs]</a><span class="k">def</span> <span class="nf">launch</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Launch the MCTS for nb_turn turns</span>
+<span class="sd">    It can be stopped in a clean way (saving all current data, tree, ... )</span>
+<span class="sd">    by writting stop in the file MCTS/stop_mcts</span>
+<span class="sd">    or sending a SIGINT or SIGTERM</span>
+<span class="sd">    be careful a SIGKILL kill the process without saving the tree or current data</span>
+<span class="sd">    if you are using DFT it can takes several hour before stopping it...</span>
+
+<span class="sd">    :return: None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Let&#39;s begin&quot;</span><span class="p">)</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">node</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">tree</span>
+    <span class="n">node</span><span class="o">.</span><span class="n">echo</span><span class="p">()</span>
+    <span class="n">signal_handler</span><span class="p">()</span>
+    <span class="n">prefix</span> <span class="o">=</span> <span class="n">SMILES</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">])</span>
+    <span class="n">nb_turn</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">turn</span> <span class="o">+</span> <span class="n">p</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;nb_turn&quot;</span><span class="p">]</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">turn</span> <span class="o">&lt;</span> <span class="n">nb_turn</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">stop_next_turn</span><span class="p">())</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">p</span><span class="o">.</span><span class="n">stop</span><span class="p">:</span>
+        <span class="n">last_good</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">tree_info</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">info_good</span><span class="p">]</span>
+        <span class="n">last_bad</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">tree_info</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">info_bad</span><span class="p">]</span>
+        <span class="n">last_already</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">tree_info</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">info_alrd_tested</span><span class="p">]</span>
+        <span class="n">last_created</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">tree_info</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">info_created</span><span class="p">]</span>
+        <span class="n">last_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Turn </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">p</span><span class="o">.</span><span class="n">turn</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;from&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;node&#39;</span><span class="p">:</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">get_node_with_prefix</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">tree</span><span class="p">,</span> <span class="n">prefix</span><span class="p">)</span>
+        <span class="n">node_to_expand</span> <span class="o">=</span> <span class="n">selection</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Node to expand : &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">node_to_expand</span><span class="p">))</span>
+        <span class="n">new_node</span> <span class="o">=</span> <span class="n">expansion</span><span class="p">(</span><span class="n">node_to_expand</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;New nodes : &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">new_node</span><span class="p">))</span>
+        <span class="n">new_smiles</span> <span class="o">=</span> <span class="n">simulation</span><span class="p">(</span><span class="n">new_node</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;new smiles : &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">new_smiles</span><span class="p">))</span>
+        <span class="n">update</span><span class="p">(</span><span class="n">new_smiles</span><span class="p">)</span>  <span class="c1"># (new_node, new_smiles)</span>
+        <span class="n">save_tree</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="n">save_data_and_info</span><span class="p">()</span>
+        <span class="n">data_base</span><span class="o">.</span><span class="n">save_data_base</span><span class="p">()</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Found </span><span class="si">%d</span><span class="s2"> valid SMILES, </span><span class="si">%d</span><span class="s2"> bad SMILES, </span><span class="si">%d</span><span class="s2"> already tested out of </span><span class="si">%d</span><span class="s2"> generated&quot;</span> <span class="o">%</span> <span class="p">(</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">tree_info</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">info_good</span><span class="p">],</span> <span class="n">p</span><span class="o">.</span><span class="n">tree_info</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">info_bad</span><span class="p">],</span> <span class="n">p</span><span class="o">.</span><span class="n">tree_info</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">info_alrd_tested</span><span class="p">],</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">tree_info</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">info_created</span><span class="p">]))</span>
+        <span class="n">current_created</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">tree_info</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">info_created</span><span class="p">]</span> <span class="o">-</span> <span class="n">last_created</span>
+        <span class="n">current_already</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">tree_info</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">info_alrd_tested</span><span class="p">]</span> <span class="o">-</span> <span class="n">last_already</span>
+        <span class="n">current_good</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">tree_info</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">info_good</span><span class="p">]</span> <span class="o">-</span> <span class="n">last_good</span>
+        <span class="n">current_bad</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">tree_info</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">info_bad</span><span class="p">]</span> <span class="o">-</span> <span class="n">last_bad</span>
+        <span class="n">current_time</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">last_time</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">f_stat</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">stat</span><span class="p">:</span>
+            <span class="n">stat</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2">,</span><span class="si">%d</span><span class="s2">,</span><span class="si">%d</span><span class="s2">,</span><span class="si">%d</span><span class="s2">,</span><span class="si">%d</span><span class="s2">,</span><span class="si">%d</span><span class="s2">,</span><span class="si">%d</span><span class="s2">,</span><span class="si">%d</span><span class="s2">,</span><span class="si">%d</span><span class="s2">,</span><span class="si">%d</span><span class="s2">,</span><span class="si">%d</span><span class="s2">,</span><span class="si">%d</span><span class="s2">,</span><span class="si">%d</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">turn</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">tree_info</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">info_created</span><span class="p">],</span> <span class="n">p</span><span class="o">.</span><span class="n">tree_info</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">info_good</span><span class="p">],</span> <span class="n">p</span><span class="o">.</span><span class="n">tree_info</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">info_bad</span><span class="p">],</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">tree_info</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">info_alrd_tested</span><span class="p">],</span> <span class="n">current_created</span><span class="p">,</span> <span class="n">current_good</span><span class="p">,</span> <span class="n">current_bad</span><span class="p">,</span> <span class="n">current_already</span><span class="p">,</span>
+                <span class="n">node</span><span class="o">.</span><span class="n">get_size</span><span class="p">(),</span> <span class="n">node</span><span class="o">.</span><span class="n">get_height</span><span class="p">(),</span> <span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">),</span> <span class="n">current_time</span><span class="p">))</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">turn</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;MCTS worked during </span><span class="si">%d</span><span class="s2"> s&quot;</span> <span class="o">%</span> <span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="selection_to_delete"><a class="viewcode-back" href="../../code/mcts.html#mcts.mcts.selection_to_delete">[docs]</a><span class="k">def</span> <span class="nf">selection_to_delete</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Select the node to use according to the ubc calcul</span>
+
+<span class="sd">    :param node: the root node to start the search</span>
+<span class="sd">    :type node: Node</span>
+<span class="sd">    :return: the node selected</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">node</span><span class="o">.</span><span class="n">smiles</span><span class="o">.</span><span class="n">terminal</span><span class="p">():</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">node</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">node</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">ubc</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">node</span></div>
+
+
+<div class="viewcode-block" id="ubc"><a class="viewcode-back" href="../../code/mcts.html#mcts.mcts.ubc">[docs]</a><span class="k">def</span> <span class="nf">ubc</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Choose the child depending on the number of visit and the score of the child</span>
+
+<span class="sd">    :param node: the parent node</span>
+<span class="sd">    :type node: Node</span>
+<span class="sd">    :return: the chosen child</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">node</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;ubc impossible, no child : &quot;</span> <span class="o">+</span> <span class="nb">repr</span><span class="p">(</span><span class="n">node</span><span class="p">))</span>
+    <span class="n">best_score</span> <span class="o">=</span> <span class="o">-</span><span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)</span>
+    <span class="n">best_children</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">c</span><span class="o">.</span><span class="n">smiles</span><span class="o">.</span><span class="n">terminal</span><span class="p">():</span>
+            <span class="n">exploit</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">score</span> <span class="o">/</span> <span class="n">c</span><span class="o">.</span><span class="n">visits</span>
+            <span class="n">explore</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">visits</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">visits</span><span class="p">))</span>
+            <span class="n">score</span> <span class="o">=</span> <span class="n">exploit</span> <span class="o">+</span> <span class="n">p</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;exploration_vs_exploitation&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">explore</span>
+            <span class="k">if</span> <span class="n">score</span> <span class="o">==</span> <span class="n">best_score</span><span class="p">:</span>
+                <span class="n">best_children</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">score</span> <span class="o">&gt;</span> <span class="n">best_score</span><span class="p">:</span>
+                <span class="n">best_children</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="p">]</span>
+                <span class="n">best_score</span> <span class="o">=</span> <span class="n">score</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">best_children</span><span class="p">:</span>
+        <span class="n">node</span><span class="o">.</span><span class="n">visits</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">node</span><span class="o">.</span><span class="n">parent</span>
+    <span class="k">return</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">best_children</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="selection"><a class="viewcode-back" href="../../code/mcts.html#mcts.mcts.selection">[docs]</a><span class="k">def</span> <span class="nf">selection</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Select the node to use according to the ubc calculation</span>
+
+<span class="sd">    :param node: the root node to start the search</span>
+<span class="sd">    :return: the node selected</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">while</span> <span class="n">node</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">ubc</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">node</span></div>
+
+
+<div class="viewcode-block" id="expansion"><a class="viewcode-back" href="../../code/mcts.html#mcts.mcts.expansion">[docs]</a><span class="k">def</span> <span class="nf">expansion</span><span class="p">(</span><span class="n">nodes_to_expand</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Function called for the expansion of the tree,</span>
+<span class="sd">    Add as much children as the function next_atoms of the current SMILES give</span>
+
+<span class="sd">    :param nodes_to_expand: the leaf selected by the function select</span>
+<span class="sd">    :type nodes_to_expand: Node</span>
+<span class="sd">    :return: the children created for the leaf</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">new_nodes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">nodes_to_expand</span><span class="o">.</span><span class="n">smiles</span><span class="o">.</span><span class="n">next_atoms</span><span class="p">():</span>
+        <span class="n">nodes_to_expand</span><span class="o">.</span><span class="n">new_child</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="n">new_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nodes_to_expand</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">new_nodes</span></div>
+
+
+<div class="viewcode-block" id="simulation"><a class="viewcode-back" href="../../code/mcts.html#mcts.mcts.simulation">[docs]</a><span class="k">def</span> <span class="nf">simulation</span><span class="p">(</span><span class="n">nodes</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Roll-out,</span>
+<span class="sd">    Create as much as SMILES for each new created nodes as given in the configuration file</span>
+
+<span class="sd">    :param nodes: nodes to test during the simulation part</span>
+<span class="sd">    :type nodes: list of Node</span>
+<span class="sd">    :return: smiles created during the simulation</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">all_new_smiles</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">models</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
+            <span class="n">new_smiles</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;SMILES_simulated_per_node&#39;</span><span class="p">]):</span>
+                <span class="n">smiles</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">smiles</span><span class="o">.</span><span class="n">end_smiles_with_model</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                <span class="k">while</span> <span class="ow">not</span> <span class="n">smiles</span><span class="o">.</span><span class="n">terminal</span><span class="p">():</span>
+                    <span class="n">smiles</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">smiles</span><span class="o">.</span><span class="n">end_smiles_with_model</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                <span class="n">new_smiles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">smiles</span><span class="p">)</span>
+            <span class="n">all_new_smiles</span> <span class="o">+=</span> <span class="n">new_smiles</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
+            <span class="n">new_smiles</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_smiles</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">p</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;SMILES_simulated_per_node&#39;</span><span class="p">]:</span>
+                <span class="n">smiles</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">smiles</span><span class="o">.</span><span class="n">end_smiles</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">smiles</span><span class="o">.</span><span class="n">terminal</span><span class="p">():</span>
+                    <span class="n">new_smiles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">smiles</span><span class="p">)</span>
+            <span class="n">all_new_smiles</span> <span class="o">+=</span> <span class="n">new_smiles</span>
+    <span class="k">return</span> <span class="n">all_new_smiles</span></div>
+
+
+<div class="viewcode-block" id="update_smiles"><a class="viewcode-back" href="../../code/mcts.html#mcts.mcts.update_smiles">[docs]</a><span class="k">def</span> <span class="nf">update_smiles</span><span class="p">(</span><span class="n">smiles</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the reward for the smiles,</span>
+<span class="sd">    if its have already been calculated</span>
+<span class="sd">    then he load it from the data</span>
+
+<span class="sd">    :param smiles: the smile to reward</span>
+<span class="sd">    :type smiles: SMILES</span>
+<span class="sd">    :return: None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">already</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">full_smiles</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;long_prefix&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">smiles</span><span class="o">.</span><span class="n">element</span><span class="p">)</span>
+    <span class="n">properties</span> <span class="o">=</span> <span class="n">data_base</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">full_smiles</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">repr</span><span class="p">(</span><span class="n">smiles</span><span class="p">)</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">already</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">with</span> <span class="n">p</span><span class="o">.</span><span class="n">lock_update_data</span><span class="p">:</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">tree_info</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">info_alrd_tested</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">smiles</span><span class="o">.</span><span class="n">properties</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="nb">repr</span><span class="p">(</span><span class="n">smiles</span><span class="p">)]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">properties</span><span class="p">:</span>
+            <span class="n">smiles</span><span class="o">.</span><span class="n">calculation_of_properties</span><span class="p">()</span>
+            <span class="n">data_base</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">full_smiles</span><span class="p">,</span> <span class="n">smiles</span><span class="o">.</span><span class="n">properties</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">smiles</span><span class="o">.</span><span class="n">properties</span> <span class="o">=</span> <span class="n">properties</span>
+        <span class="k">with</span> <span class="n">p</span><span class="o">.</span><span class="n">lock_update_data</span><span class="p">:</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="nb">repr</span><span class="p">(</span><span class="n">smiles</span><span class="p">)]</span> <span class="o">=</span> <span class="n">smiles</span><span class="o">.</span><span class="n">properties</span>
+    <span class="n">reward</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">scorer</span><span class="o">.</span><span class="n">reward</span><span class="p">(</span><span class="n">smiles</span><span class="o">=</span><span class="n">p</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="nb">repr</span><span class="p">(</span><span class="n">smiles</span><span class="p">)],</span> <span class="n">already</span><span class="o">=</span><span class="n">already</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">p</span><span class="o">.</span><span class="n">lock_update_node</span><span class="p">:</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">get_node_starting_with</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">smiles</span><span class="o">.</span><span class="n">element</span><span class="p">))</span>
+        <span class="c1"># print(&quot;Reward %s : %f on node %s&quot; % (str(smiles), reward, repr(node)))</span>
+        <span class="n">node</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">reward</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="update"><a class="viewcode-back" href="../../code/mcts.html#mcts.mcts.update">[docs]</a><span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="n">new_smiles</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Call the function to update nodes with all generated smiles</span>
+<span class="sd">    Use multitheading if n_jobs in parameters is greater than 1</span>
+
+<span class="sd">    :param new_smiles: generated smiles</span>
+<span class="sd">    :type new_smiles: list of SMILES</span>
+<span class="sd">    :return: None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">tree_info</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">info_created</span><span class="p">]</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_smiles</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Update&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2"> smiles to process&quot;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_smiles</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2"> unique smiles&quot;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">new_smiles</span><span class="p">)))</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">tree_info</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">info_alrd_tested</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">new_smiles</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">new_smiles</span><span class="p">)))</span>
+    <span class="n">backend</span> <span class="o">=</span> <span class="s1">&#39;threading&#39;</span>
+    <span class="n">Parallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="n">p</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;n_jobs&#39;</span><span class="p">],</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">)(</span><span class="n">delayed</span><span class="p">(</span><span class="n">update_smiles</span><span class="p">)(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">new_smiles</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="get_node_with_prefix"><a class="viewcode-back" href="../../code/mcts.html#mcts.mcts.get_node_with_prefix">[docs]</a><span class="k">def</span> <span class="nf">get_node_with_prefix</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">smiles</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find or create node to match the smiles</span>
+<span class="sd">    be carefull, create nodes until the smiles is complete in the tree</span>
+
+<span class="sd">    :exemple:</span>
+
+<span class="sd">        node = Node()</span>
+<span class="sd">        node.new_child(SMILES([&#39;O&#39;]))</span>
+<span class="sd">        node.children[0].new_child(SMILES(node.children[0].smiles.element + [&#39;N&#39;]))</span>
+<span class="sd">        node.children[0].new_child(SMILES(node.children[0].smiles.element + [&#39;C&#39;]))</span>
+<span class="sd">        node.children[0].children[1].new_child(SMILES(node.children[0].children[1].smiles.element + [&#39;c&#39;]))</span>
+<span class="sd">        node.children[0].children[1].new_child(SMILES(node.children[0].children[1].smiles.element + [&#39;F&#39;]))</span>
+<span class="sd">        node.children[0].children[1].new_child(SMILES(node.children[0].children[1].smiles.element + [&#39;D&#39;]))</span>
+<span class="sd">        node.children[0].new_child(SMILES(node.children[0].smiles.element + [&#39;c&#39;]))</span>
+<span class="sd">        node.children[0].new_child(SMILES(node.children[0].smiles.element + [&#39;F&#39;]))</span>
+<span class="sd">        node.new_child(SMILES(node.smiles.element + [&#39;C&#39;]))</span>
+<span class="sd">        node.new_child(SMILES(node.smiles.element + [&#39;N&#39;]))</span>
+<span class="sd">        node.new_child(SMILES(node.smiles.element + [&#39;[NH]&#39;]))</span>
+<span class="sd">        pptree.print_tree(node.out_pptree())</span>
+<span class="sd">        prefix = get_node_with_prefix(node, SMILES([&#39;O&#39;, &#39;C&#39;, &#39;F&#39;, &#39;G&#39;]))</span>
+<span class="sd">        pptree.print_tree(node.out_pptree())</span>
+<span class="sd">        pptree.print_tree(prefix.out_pptree())</span>
+
+<span class="sd">    :param node: the root node to start the prefix</span>
+<span class="sd">    :type node: Node</span>
+<span class="sd">    :param smiles: prefix to generate</span>
+<span class="sd">    :type smiles: SMILES</span>
+<span class="sd">    :return: finded or created node</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">current_node</span> <span class="o">=</span> <span class="n">node</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">smiles</span><span class="o">.</span><span class="n">element</span><span class="p">)):</span>
+        <span class="n">next_node</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">current_node</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">n</span><span class="o">.</span><span class="n">smiles</span><span class="o">.</span><span class="n">element</span> <span class="o">==</span> <span class="n">smiles</span><span class="o">.</span><span class="n">element</span><span class="p">[:</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]:</span>
+                <span class="n">next_node</span> <span class="o">=</span> <span class="n">n</span>
+                <span class="k">break</span>
+        <span class="k">if</span> <span class="n">next_node</span><span class="p">:</span>
+            <span class="n">current_node</span> <span class="o">=</span> <span class="n">next_node</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">current_node</span><span class="o">.</span><span class="n">new_child</span><span class="p">(</span><span class="n">SMILES</span><span class="p">(</span><span class="n">smiles</span><span class="o">.</span><span class="n">element</span><span class="p">[:</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]))</span>
+            <span class="n">current_node</span> <span class="o">=</span> <span class="n">current_node</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">current_node</span></div>
+
+
+<div class="viewcode-block" id="save_tree"><a class="viewcode-back" href="../../code/mcts.html#mcts.mcts.save_tree">[docs]</a><span class="k">def</span> <span class="nf">save_tree</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Save the state of the tree</span>
+
+<span class="sd">    :param node: the node to save (save all the tree anyway...)</span>
+<span class="sd">    :type node: Node</span>
+<span class="sd">    :return: None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">f_tree</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">pf</span><span class="p">:</span>
+        <span class="n">pickler</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">Pickler</span><span class="p">(</span><span class="n">pf</span><span class="p">)</span>
+        <span class="n">pickler</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Tree saved&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="load_tree"><a class="viewcode-back" href="../../code/mcts.html#mcts.mcts.load_tree">[docs]</a><span class="k">def</span> <span class="nf">load_tree</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Load the tree</span>
+
+<span class="sd">    :return: the root node of the tree</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">f_tree</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">pf</span><span class="p">:</span>
+        <span class="n">pickler</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">Unpickler</span><span class="p">(</span><span class="n">pf</span><span class="p">)</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">pickler</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+    <span class="k">while</span> <span class="n">node</span><span class="o">.</span><span class="n">parent</span><span class="p">:</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">parent</span>
+    <span class="k">return</span> <span class="n">node</span></div>
+
+
+<div class="viewcode-block" id="save_data_and_info"><a class="viewcode-back" href="../../code/mcts.html#mcts.mcts.save_data_and_info">[docs]</a><span class="k">def</span> <span class="nf">save_data_and_info</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Save the data and the statistics</span>
+
+<span class="sd">    :return: None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">f_data</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">f_info</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">tree_info</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_node_starting_with"><a class="viewcode-back" href="../../code/mcts.html#mcts.mcts.get_node_starting_with">[docs]</a><span class="k">def</span> <span class="nf">get_node_starting_with</span><span class="p">(</span><span class="n">smiles</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the node in the tree where the SMILES come from</span>
+
+<span class="sd">    :param smiles: SMILES to look for</span>
+<span class="sd">    :type smiles: str</span>
+<span class="sd">    :return: parent node of the SMILES</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">current_node</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">tree</span>
+    <span class="k">while</span> <span class="n">current_node</span><span class="o">.</span><span class="n">children</span> <span class="ow">and</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">current_node</span><span class="o">.</span><span class="n">smiles</span><span class="p">)[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">smiles</span><span class="p">):</span>
+        <span class="n">children</span> <span class="o">=</span> <span class="n">current_node</span><span class="o">.</span><span class="n">children</span>
+        <span class="n">children</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">smiles</span><span class="p">)),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">modif</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">children</span><span class="p">:</span>
+            <span class="n">c_smiles</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">smiles</span><span class="p">)[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">len_c_smiles</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">c_smiles</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">smiles</span><span class="p">[:</span><span class="n">len_c_smiles</span><span class="p">]</span> <span class="o">==</span> <span class="n">c_smiles</span><span class="p">:</span>
+                <span class="n">modif</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">current_node</span> <span class="o">=</span> <span class="n">c</span>
+                <span class="k">break</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">modif</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">current_node</span>
+    <span class="k">return</span> <span class="n">current_node</span></div>
+
+
+<div class="viewcode-block" id="load_scores"><a class="viewcode-back" href="../../code/mcts.html#mcts.mcts.load_scores">[docs]</a><span class="k">def</span> <span class="nf">load_scores</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Load the score in the tree for all data already known</span>
+
+<span class="sd">    :return: None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Loading scores&quot;</span><span class="p">)</span>
+    <span class="n">length_data</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\r</span><span class="si">%d</span><span class="s2">/</span><span class="si">%d</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">length_data</span><span class="p">,</span> <span class="n">s</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="o">*</span><span class="p">(</span><span class="mi">90</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)))</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;_&quot;</span><span class="p">:</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">get_node_starting_with</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">scorer</span><span class="o">.</span><span class="n">reward</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">s</span><span class="p">],</span> <span class="kc">False</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">get_node_starting_with</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">scorer</span><span class="o">.</span><span class="n">reward</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">s</span><span class="p">],</span> <span class="kc">False</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="reset_score_visit"><a class="viewcode-back" href="../../code/mcts.html#mcts.mcts.reset_score_visit">[docs]</a><span class="k">def</span> <span class="nf">reset_score_visit</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reset the scores in the tree</span>
+
+<span class="sd">    :param node: root node of the tree</span>
+<span class="sd">    :type node: Node</span>
+<span class="sd">    :return: None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">node</span><span class="o">.</span><span class="n">visits</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">node</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
+            <span class="n">reset_score_visit</span><span class="p">(</span><span class="n">c</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Cyril-Grl
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

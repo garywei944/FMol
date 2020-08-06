@@ -1,0 +1,374 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>2. Train your RNN &mdash; AlphaSMILES 0.3 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3. Launch your MCTS" href="launch_mcts.html" />
+    <link rel="prev" title="1. Prepare your data" href="prepare_your_data.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> AlphaSMILES
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About this project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../requirements.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../todo.html">TODO</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorial</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="prepare_your_data.html">1. Prepare your data</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. Train your RNN</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#configure-the-rnn">2.1. Configure the RNN</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#configuration-name">2.1.1. configuration_name</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#data-input">2.1.2. data_input</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tokens-allowed">2.1.3. tokens_allowed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c-n-allowed">2.1.4. C#N allowed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bootstrapping-and-nb-samples-rnn-bt">2.1.5. bootstrapping and nb_samples_rnn_bt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#epochs">2.1.6. epochs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#learning-rate">2.1.7. learning_rate</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#train-it">2.2. Train it</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="launch_mcts.html">3. Launch your MCTS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_your_properties.html">4. Create your properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_your_scorer.html">5. Create your scorer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hyperparameter_rnn.html">6. Look for the best RNN parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test_your_rnn.html">7. Test your RNN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="see_your_results.html">8. See your results</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../code/rnn.html">1. RNN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code/mcts.html">2. MCTS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code/property.html">3. Property</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code/scorer.html">4. Scorer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code/tools.html">5. Tools</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">AlphaSMILES</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>2. Train your RNN</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/tutorials/train_rnn.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="train-your-rnn">
+<h1>2. Train your RNN<a class="headerlink" href="#train-your-rnn" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="configure-the-rnn">
+<h2>2.1. Configure the RNN<a class="headerlink" href="#configure-the-rnn" title="Permalink to this headline">¶</a></h2>
+<p>In order to train the RNN you need to create a JSON file contaning information about the parameters. You can find a tool to help you build it in the folder <em>tools/</em>, <em>config_creator_rnn.py</em>.</p>
+<p>After setting all parameters execute the script to create a json file with those parameters in <em>‘rnn/configuration’</em>.</p>
+<div class="section" id="configuration-name">
+<h3>2.1.1. configuration_name<a class="headerlink" href="#configuration-name" title="Permalink to this headline">¶</a></h3>
+<p>The configuration name will be the name of the folder containing the model. You will reuse it while configuring the MCTS or when looking for the RNN.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;configuration_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;name&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="data-input">
+<h3>2.1.2. data_input<a class="headerlink" href="#data-input" title="Permalink to this headline">¶</a></h3>
+<p>Data input is the name of the file containing the SMILES to use to train the RNN. This file have to be located in the folder <em>data_in</em>. You can find the differents files <a class="reference external" href="prepare_your_data.html">here</a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;data_input&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;all_smiles_unique&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="tokens-allowed">
+<h3>2.1.3. tokens_allowed<a class="headerlink" href="#tokens-allowed" title="Permalink to this headline">¶</a></h3>
+<p>Tokens allowed is the list of tokens that the RNN will use to filter the SMILES file and select the SMILES used to train the RNN.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;tokens_allowed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;&amp;&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="s1">&#39;(&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="s1">&#39;)&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span>
+                            <span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;4&#39;</span><span class="p">,</span> <span class="s1">&#39;[nH]&#39;</span><span class="p">,</span> <span class="s1">&#39;Cl&#39;</span><span class="p">,</span> <span class="s1">&#39;S&#39;</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="s1">&#39;#&#39;</span><span class="p">,</span> <span class="s1">&#39;[NH]&#39;</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Here is a list of tokens existing in the <em>all_smiles_unique</em> file</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;&amp;&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="s1">&#39;(&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="s1">&#39;)&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="s1">&#39;S&#39;</span><span class="p">,</span> <span class="s1">&#39;[O]&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;4&#39;</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">,</span>
+<span class="s1">&#39;[N+]&#39;</span><span class="p">,</span> <span class="s1">&#39;[O-]&#39;</span><span class="p">,</span> <span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="s1">&#39;[Si]&#39;</span><span class="p">,</span> <span class="s1">&#39;[nH]&#39;</span><span class="p">,</span> <span class="s1">&#39;Cl&#39;</span><span class="p">,</span> <span class="s1">&#39;Br&#39;</span><span class="p">,</span> <span class="s1">&#39;[C]&#39;</span><span class="p">,</span> <span class="s1">&#39;[N]&#39;</span><span class="p">,</span> <span class="s1">&#39;[PH]&#39;</span><span class="p">,</span> <span class="s1">&#39;[S]&#39;</span><span class="p">,</span> <span class="s1">&#39;P&#39;</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span>
+<span class="s1">&#39;[SH]&#39;</span><span class="p">,</span> <span class="s1">&#39;#&#39;</span><span class="p">,</span> <span class="s1">&#39;[CH]&#39;</span><span class="p">,</span> <span class="s1">&#39;5&#39;</span><span class="p">,</span> <span class="s1">&#39;6&#39;</span><span class="p">,</span> <span class="s1">&#39;[As]&#39;</span><span class="p">,</span> <span class="s1">&#39;[NH]&#39;</span><span class="p">,</span> <span class="s1">&#39;[Ar]&#39;</span><span class="p">,</span> <span class="s1">&#39;[CH2]&#39;</span><span class="p">,</span> <span class="s1">&#39;[Se]&#39;</span><span class="p">,</span> <span class="s1">&#39;[PH2]&#39;</span><span class="p">,</span> <span class="s1">&#39;[AlH3]&#39;</span><span class="p">,</span>
+<span class="s1">&#39;[GeH4]&#39;</span><span class="p">,</span> <span class="s1">&#39;7&#39;</span><span class="p">,</span> <span class="s1">&#39;[SiH]&#39;</span><span class="p">,</span> <span class="s1">&#39;[SeH]&#39;</span><span class="p">,</span> <span class="s1">&#39;[SeH2]&#39;</span><span class="p">,</span> <span class="s1">&#39;[CH3]&#39;</span><span class="p">,</span> <span class="s1">&#39;[Cl]&#39;</span><span class="p">,</span> <span class="s1">&#39;[Ge]&#39;</span><span class="p">,</span> <span class="s1">&#39;[AsH3]&#39;</span><span class="p">,</span> <span class="s1">&#39;[Br]&#39;</span><span class="p">,</span>
+<span class="s1">&#39;[AsH2]&#39;</span><span class="p">,</span> <span class="s1">&#39;[GeH]&#39;</span><span class="p">,</span> <span class="s1">&#39;[P]&#39;</span><span class="p">,</span> <span class="s1">&#39;[c]&#39;</span><span class="p">,</span> <span class="s1">&#39;[Ne]&#39;</span><span class="p">,</span> <span class="s1">&#39;[SiH3]&#39;</span><span class="p">,</span> <span class="s1">&#39;[Mg]&#39;</span><span class="p">,</span> <span class="s1">&#39;[AsH]&#39;</span><span class="p">,</span> <span class="s1">&#39;[se]&#39;</span><span class="p">,</span> <span class="s1">&#39;[Na]&#39;</span><span class="p">,</span> <span class="s1">&#39;[OH]&#39;</span><span class="p">,</span>
+<span class="s1">&#39;[SiH4]&#39;</span><span class="p">,</span> <span class="s1">&#39;[SiH2]&#39;</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="s1">&#39;[F]&#39;</span><span class="p">,</span> <span class="s1">&#39;[Li]&#39;</span><span class="p">,</span> <span class="s1">&#39;[GeH2]&#39;</span><span class="p">,</span> <span class="s1">&#39;[Be]&#39;</span><span class="p">,</span> <span class="s1">&#39;[GeH3]&#39;</span><span class="p">,</span> <span class="s1">&#39;[siH]&#39;</span><span class="p">,</span> <span class="s1">&#39;[PH3]&#39;</span><span class="p">,</span> <span class="s1">&#39;[si]&#39;</span><span class="p">,</span>
+<span class="s1">&#39;[SH3]&#39;</span><span class="p">,</span> <span class="s1">&#39;[pH]&#39;</span><span class="p">,</span> <span class="s1">&#39;[SH2]&#39;</span><span class="p">,</span> <span class="s1">&#39;[NH2]&#39;</span><span class="p">,</span> <span class="s1">&#39;[B]&#39;</span><span class="p">,</span> <span class="s1">&#39;[PH4]&#39;</span><span class="p">,</span> <span class="s1">&#39;8&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>When using the <em>prepare_data</em> function you can see the list printed at the end of the execution.</p>
+<dl class="function">
+<dt>
+<code class="descclassname">rnn.rnn.</code><code class="descname">prepare_data</code><span class="sig-paren">(</span><em>config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rnn/rnn.html#prepare_data"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Load the SMILES file selected in the config file, filter the SMILES with the tokens allowed.
+Then return all selected SMILES and the tokens present.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>config</strong> (<em>dict</em>) – configuration for the RNN</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">list of the tokens and all selected SMILES</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="c-n-allowed">
+<h3>2.1.4. C#N allowed<a class="headerlink" href="#c-n-allowed" title="Permalink to this headline">¶</a></h3>
+<p>This parameter is used to add ‘C#N’ and ‘N#C’ to the possibilities, if ‘C’, ‘#’ and ‘N’ are not allowed but you still want ‘C#N’ in the possibilities.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;C#N allowed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="bootstrapping-and-nb-samples-rnn-bt">
+<h3>2.1.5. bootstrapping and nb_samples_rnn_bt<a class="headerlink" href="#bootstrapping-and-nb-samples-rnn-bt" title="Permalink to this headline">¶</a></h3>
+<p>You have the possibility to train and use multiples RNN.
+Bootstrapping consist of trainning multiples RNN with differents data by picking
+<em>‘nb_samples_rnn_bt’</em> SMILES in the SMILES file.</p>
+<p>The parameter <em>bootstrapping</em> allow you to choose if you want to use bootstrapping</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># number of rnn to train</span>
+<span class="c1"># 0 : 1 classic rnn trained with all data</span>
+<span class="c1"># 1 : 1 rnn trained with &#39;nb_samples_rnn_bt&#39; samples</span>
+<span class="c1"># x : x rnn trained with &#39;nb_samples_rnn_bt&#39; samples</span>
+<span class="n">config</span><span class="p">[</span><span class="s1">&#39;bootstrapping&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">config</span><span class="p">[</span><span class="s1">&#39;nb_samples_rnn_bt&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">300</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="epochs">
+<h3>2.1.6. epochs<a class="headerlink" href="#epochs" title="Permalink to this headline">¶</a></h3>
+<p>Choose the number max of epochs for the RNN. The RNN will stop before this number when he doesn’t learn anymore and will save the best RNN.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># number of epochs max used to train the rnn</span>
+<span class="n">config</span><span class="p">[</span><span class="s1">&#39;epochs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">200</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="learning-rate">
+<h3>2.1.7. learning_rate<a class="headerlink" href="#learning-rate" title="Permalink to this headline">¶</a></h3>
+<p>Choose the learning rate for the RNN, after some test we conclude that the one that give more regular RNN is 0.001. (see ` how to do a grid search &lt;hyperparameter_rnn.html&gt;`_)</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># learning rate used to train the rnn</span>
+<span class="n">config</span><span class="p">[</span><span class="s1">&#39;learning_rate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.01</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="train-it">
+<h2>2.2. Train it<a class="headerlink" href="#train-it" title="Permalink to this headline">¶</a></h2>
+<p>Once you have generated a json configuration file, you can use the file <em>main.py</em> to train the rnn with the desire configuration or use that kind of script:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># To disable TensorFlow warnings</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;TF_CPP_MIN_LOG_LEVEL&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;3&#39;</span>
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="kn">as</span> <span class="nn">tf</span>
+<span class="n">tf</span><span class="o">.</span><span class="n">logging</span><span class="o">.</span><span class="n">set_verbosity</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">logging</span><span class="o">.</span><span class="n">ERROR</span><span class="p">)</span>
+
+<span class="c1"># If you want to work with the GPU, set no_gpu to False</span>
+<span class="n">no_gpu</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="k">if</span> <span class="n">no_gpu</span><span class="p">:</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;CUDA_DEVICE_ORDER&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;PCI_BUS_ID&quot;</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;CUDA_VISIBLE_DEVICES&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+<span class="hll"><span class="kn">from</span> <span class="nn">rnn.rnn</span> <span class="kn">import</span> <span class="n">create_rnn</span>
+</span><span class="hll"><span class="n">create_rnn</span><span class="p">(</span><span class="s1">&#39;rnn_2.1&#39;</span><span class="p">)</span>
+</span></pre></div>
+</td></tr></table></div>
+<p>This code disable the warnings from TensorFlow and the use of GPU then create a RNN from the configuration <em>‘rnn_2.1’</em>.</p>
+<p>After executing this code, you will see the progression of the SMILES selection, then will be printed the number of selected SMILES and the tokens presents.
+The RNN will be trained until its not learning anything anymore, the best weights are saved as the architecture in the repertory under <em>‘rnn_models/’</em>
+with the same name as the configuration name.</p>
+<p>You can watch the performance of the RNN by looking at the graphs generated with TensorsBoard by using the following line (while being in the repertory <em>‘rnn_models/config_name’</em>
+, don’t forget to use the correct conda environment):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python -m tensorboard.main --logdir<span class="o">=</span><span class="sb">`</span><span class="nb">pwd</span><span class="sb">`</span>/log
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="launch_mcts.html" class="btn btn-neutral float-right" title="3. Launch your MCTS" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="prepare_your_data.html" class="btn btn-neutral float-left" title="1. Prepare your data" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Cyril-Grl
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

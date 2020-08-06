@@ -1,0 +1,467 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>3. Property &mdash; AlphaSMILES 0.3 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="4. Scorer" href="scorer.html" />
+    <link rel="prev" title="2. MCTS" href="mcts.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> AlphaSMILES
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About this project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../requirements.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../todo.html">TODO</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/prepare_your_data.html">1. Prepare your data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/train_rnn.html">2. Train your RNN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/launch_mcts.html">3. Launch your MCTS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/create_your_properties.html">4. Create your properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/create_your_scorer.html">5. Create your scorer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/hyperparameter_rnn.html">6. Look for the best RNN parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/test_your_rnn.html">7. Test your RNN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/see_your_results.html">8. See your results</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="rnn.html">1. RNN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcts.html">2. MCTS</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">3. Property</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-mcts.properties.properties">3.1. Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-mcts.properties.dft">3.2. DFT</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="scorer.html">4. Scorer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">5. Tools</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">AlphaSMILES</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>3. Property</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/code/property.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="property">
+<h1>3. Property<a class="headerlink" href="#property" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-mcts.properties.properties">
+<span id="properties"></span><h2>3.1. Properties<a class="headerlink" href="#module-mcts.properties.properties" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="mcts.properties.properties.CycleProperty2DDecorator">
+<em class="property">class </em><code class="descclassname">mcts.properties.properties.</code><code class="descname">CycleProperty2DDecorator</code><span class="sig-paren">(</span><em>property_decorated</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/properties/properties.html#CycleProperty2DDecorator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.properties.properties.CycleProperty2DDecorator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cycle property</p>
+<dl class="method">
+<dt id="mcts.properties.properties.CycleProperty2DDecorator.calculate">
+<code class="descname">calculate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/properties/properties.html#CycleProperty2DDecorator.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.properties.properties.CycleProperty2DDecorator.calculate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call the calculate method of the property then calculate the size of the longest cycle
+before returning the RDKit mol</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">RDKit mol</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="mcts.properties.properties.DFTPropertyDecorator">
+<em class="property">class </em><code class="descclassname">mcts.properties.properties.</code><code class="descname">DFTPropertyDecorator</code><span class="sig-paren">(</span><em>property_decorated</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/properties/properties.html#DFTPropertyDecorator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.properties.properties.DFTPropertyDecorator" title="Permalink to this definition">¶</a></dt>
+<dd><p>DFT property</p>
+<dl class="method">
+<dt id="mcts.properties.properties.DFTPropertyDecorator.calculate">
+<code class="descname">calculate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/properties/properties.html#DFTPropertyDecorator.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.properties.properties.DFTPropertyDecorator.calculate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call the calculate method of the property then launch the DFT before returning the RDKit mol</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">RDKit mol</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="mcts.properties.properties.LogPProperty2DDecorator">
+<em class="property">class </em><code class="descclassname">mcts.properties.properties.</code><code class="descname">LogPProperty2DDecorator</code><span class="sig-paren">(</span><em>property_decorated</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/properties/properties.html#LogPProperty2DDecorator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.properties.properties.LogPProperty2DDecorator" title="Permalink to this definition">¶</a></dt>
+<dd><p>LogP property</p>
+<dl class="method">
+<dt id="mcts.properties.properties.LogPProperty2DDecorator.calculate">
+<code class="descname">calculate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/properties/properties.html#LogPProperty2DDecorator.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.properties.properties.LogPProperty2DDecorator.calculate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call the calculate method of the property then calculate the LogP before returning the RDKit mol</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">RDKit mol</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="mcts.properties.properties.Property">
+<em class="property">class </em><code class="descclassname">mcts.properties.properties.</code><code class="descname">Property</code><span class="sig-paren">(</span><em>smiles</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/properties/properties.html#Property"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.properties.properties.Property" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mother class of properties</p>
+<dl class="method">
+<dt id="mcts.properties.properties.Property.calculate">
+<code class="descname">calculate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/properties/properties.html#Property.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.properties.properties.Property.calculate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract method to calculate the properties of a SMILES</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="mcts.properties.properties.Property2D">
+<em class="property">class </em><code class="descclassname">mcts.properties.properties.</code><code class="descname">Property2D</code><span class="sig-paren">(</span><em>smiles</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/properties/properties.html#Property2D"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.properties.properties.Property2D" title="Permalink to this definition">¶</a></dt>
+<dd><p>2D properties, based on RDKit representation</p>
+<dl class="method">
+<dt id="mcts.properties.properties.Property2D.calculate">
+<code class="descname">calculate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/properties/properties.html#Property2D.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.properties.properties.Property2D.calculate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the SMILES is valid then update the info.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">RDKit Mol object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="mcts.properties.properties.PropertyDecorator">
+<em class="property">class </em><code class="descclassname">mcts.properties.properties.</code><code class="descname">PropertyDecorator</code><span class="sig-paren">(</span><em>property_decorated</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/properties/properties.html#PropertyDecorator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.properties.properties.PropertyDecorator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract class for property decorator</p>
+<dl class="method">
+<dt id="mcts.properties.properties.PropertyDecorator.calculate">
+<code class="descname">calculate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/properties/properties.html#PropertyDecorator.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.properties.properties.PropertyDecorator.calculate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract method to calculate the properties of a SMILES</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="mcts.properties.properties.SAScoreProperty2DDecorator">
+<em class="property">class </em><code class="descclassname">mcts.properties.properties.</code><code class="descname">SAScoreProperty2DDecorator</code><span class="sig-paren">(</span><em>property_decorated</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/properties/properties.html#SAScoreProperty2DDecorator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.properties.properties.SAScoreProperty2DDecorator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator for SA Score</p>
+<dl class="method">
+<dt id="mcts.properties.properties.SAScoreProperty2DDecorator.calculate">
+<code class="descname">calculate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/properties/properties.html#SAScoreProperty2DDecorator.calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.properties.properties.SAScoreProperty2DDecorator.calculate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call the calculate method of the property then calculate the SA score before returning the RDKit mol</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">RDKit mol</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="mcts.properties.properties.decorable">
+<code class="descclassname">mcts.properties.properties.</code><code class="descname">decorable</code><span class="sig-paren">(</span><em>cls</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/properties/properties.html#decorable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.properties.properties.decorable" title="Permalink to this definition">¶</a></dt>
+<dd><p>function to decorate a class with “&lt;”</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cls</strong> (<em>class</em>) – class to decorate</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">class</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-mcts.properties.dft">
+<span id="dft"></span><h2>3.2. DFT<a class="headerlink" href="#module-mcts.properties.dft" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="mcts.properties.dft.calcul_dft">
+<code class="descclassname">mcts.properties.dft.</code><code class="descname">calcul_dft</code><span class="sig-paren">(</span><em>id_smiles</em>, <em>smiles</em>, <em>m</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/properties/dft.html#calcul_dft"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.properties.dft.calcul_dft" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the SMILES into RDKit mol,
+get the position of the atoms with obabel,
+launch OTP with gaussian
+if the OTP has a normal termination then launch TD
+return the oscillator strength and wavelength</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>id_smiles</strong> (<em>int</em>) – id of the SMILES</li>
+<li><strong>smiles</strong> (<a class="reference internal" href="mcts.html#mcts.smiles.SMILES" title="mcts.smiles.SMILES"><em>SMILES</em></a>) – SMILES to analyse</li>
+<li><strong>m</strong> (<em>RDKit mol</em>) – mol version of the SMILES</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Oscillator Strength and wavelength in nm, ev and cm-1</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="mcts.properties.dft.compress_file">
+<code class="descclassname">mcts.properties.dft.</code><code class="descname">compress_file</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/properties/dft.html#compress_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.properties.dft.compress_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compress the file if exist, delete it and move it</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>file</strong> (<em>str</em>) – the file to compress and delete</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="mcts.properties.dft.delete_file">
+<code class="descclassname">mcts.properties.dft.</code><code class="descname">delete_file</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/properties/dft.html#delete_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.properties.dft.delete_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete the file if exist</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>file</strong> (<em>str</em>) – the file to delete</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="mcts.properties.dft.move_file">
+<code class="descclassname">mcts.properties.dft.</code><code class="descname">move_file</code><span class="sig-paren">(</span><em>file</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mcts/properties/dft.html#move_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mcts.properties.dft.move_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Move the file to generated/dft/</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>file</strong> (<em>str</em>) – the file to move</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="scorer.html" class="btn btn-neutral float-right" title="4. Scorer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="mcts.html" class="btn btn-neutral float-left" title="2. MCTS" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Cyril-Grl
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

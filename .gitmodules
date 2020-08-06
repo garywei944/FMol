@@ -1,0 +1,3 @@
+[submodule "AlphaSMILES"]
+	path = AlphaSMILES
+	url = git@github.com:garywei944/AlphaSMILES.git

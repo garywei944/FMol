@@ -1,0 +1,27 @@
+
+
+
+
+    """This function does something.
+
+    write as much as you want here
+
+    here is a code sample:
+
+    >>> from example import public_fn_with_sphinxy_docstring
+    >>> public_fn_with_sphinxy_docstring(
+    ...     'foobar',
+    ...     'pending')
+    0
+
+    .. code-block:: python
+
+        pygments_style = 'sphinx'
+
+    :param name: The name to use.
+    :type name: str.
+    :param state: Current state to be in.
+    :type state: bool.
+    :returns:  int -- the return code.
+    :raises: AttributeError, KeyError
+    """

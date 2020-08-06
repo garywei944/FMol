@@ -1,0 +1,411 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>3. Launch your MCTS &mdash; AlphaSMILES 0.3 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="4. Create your properties" href="create_your_properties.html" />
+    <link rel="prev" title="2. Train your RNN" href="train_rnn.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> AlphaSMILES
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About this project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../requirements.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../todo.html">TODO</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorial</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="prepare_your_data.html">1. Prepare your data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="train_rnn.html">2. Train your RNN</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">3. Launch your MCTS</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#configuration">3.1. Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#configuration-name">3.1.1. configuration_name</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rnn-repertory">3.1.2. rnn_repertory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#long-prefix">3.1.3. long_prefix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#prefix">3.1.4. prefix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#smiles-simulated-per-node">3.1.5. SMILES_simulated_per_node</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nb-turn">3.1.6. nb_turn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exploration-vs-exploitation">3.1.7. exploration_vs_exploitation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#expansion-and-proba-min">3.1.8. expansion and proba_min</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#n-jobs-and-nb-core-dft">3.1.9. n_jobs and nb_core_dft</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#properties">3.1.10. properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scorer-and-alpha-scorer">3.1.11. scorer and alpha_scorer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#data-base">3.1.12. data_base</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#launch-the-mcts">3.2. Launch the MCTS</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="create_your_properties.html">4. Create your properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create_your_scorer.html">5. Create your scorer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hyperparameter_rnn.html">6. Look for the best RNN parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test_your_rnn.html">7. Test your RNN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="see_your_results.html">8. See your results</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../code/rnn.html">1. RNN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code/mcts.html">2. MCTS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code/property.html">3. Property</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code/scorer.html">4. Scorer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../code/tools.html">5. Tools</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">AlphaSMILES</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>3. Launch your MCTS</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/tutorials/launch_mcts.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="launch-your-mcts">
+<h1>3. Launch your MCTS<a class="headerlink" href="#launch-your-mcts" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="configuration">
+<h2>3.1. Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="configuration-name">
+<h3>3.1.1. configuration_name<a class="headerlink" href="#configuration-name" title="Permalink to this headline">¶</a></h3>
+<p>The configuration name will be the name of the output data under the directory <em>‘data_out/’</em></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;configuration_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;mcts_test&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="rnn-repertory">
+<h3>3.1.2. rnn_repertory<a class="headerlink" href="#rnn-repertory" title="Permalink to this headline">¶</a></h3>
+<p>This is the name of the rnn configuration (the name of the RNN directory under <em>‘rnn_models/’</em>).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;rnn_repertory&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;rnn_test&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="long-prefix">
+<h3>3.1.3. long_prefix<a class="headerlink" href="#long-prefix" title="Permalink to this headline">¶</a></h3>
+<p>The long prefix is a prefix the the MCTS and the RNN won’t see, only the calculation of properties will add it. You should use it when your prefix is more than 15-20 tokens. The prefix have to be a complete SMILES without the ‘\n’.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;long_prefix&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;(&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="s1">&#39;)&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;(&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;)&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span>
+                         <span class="s1">&#39;(&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="s1">&#39;)&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;(&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;)&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;4&#39;</span><span class="p">,</span>
+                         <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;4&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span>
+                         <span class="s1">&#39;1&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="prefix">
+<h3>3.1.4. prefix<a class="headerlink" href="#prefix" title="Permalink to this headline">¶</a></h3>
+<p>There is two ways of managing short prefix.</p>
+<ul class="simple">
+<li>from root, the prefix will be the prefix of the tree and you will be able to use the generated tree only with this prefix.</li>
+<li>from node, the tree will be expand to your prefix (or will select the prefix if it already exist in the tree) and will always use this node to start.</li>
+</ul>
+<p>Represent the prefix like this : [‘c’, ‘1’]</p>
+<p>Note that all tokens present in the prefix have to be in the RNN tokens.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">config</span><span class="p">[</span><span class="s1">&#39;from&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;node&#39;</span>  <span class="c1"># &#39;node&#39; or &#39;root&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="smiles-simulated-per-node">
+<h3>3.1.5. SMILES_simulated_per_node<a class="headerlink" href="#smiles-simulated-per-node" title="Permalink to this headline">¶</a></h3>
+<p>This parameter give the number of SMILES that will be created for each turn of the MCTS.</p>
+<p>If you are using bootstrapping, if the number is inferior at the number of model, only the <em>n</em> first one will be used, if the number is greater the firsts model could be reused.</p>
+<p>Keep in mind that using a big value here won’t increase the yield of the MCTS, on the contrary, the MCTS will take more time to converge to a set of good solutions.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;SMILES_simulated_per_node&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="nb-turn">
+<h3>3.1.6. nb_turn<a class="headerlink" href="#nb-turn" title="Permalink to this headline">¶</a></h3>
+<p>Number of turn that the MCTS have to do before stopping. You can also tell him to stop at the end off his turn by sending it a SIGINT or SIGTERM (if you are using DFT calculation, writing <em>stop</em> in the file <em>‘data_out/[config_name]/stop.txt’</em> will stop the MCTS at the end of the turn too).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;nb_turn&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">200</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="exploration-vs-exploitation">
+<h3>3.1.7. exploration_vs_exploitation<a class="headerlink" href="#exploration-vs-exploitation" title="Permalink to this headline">¶</a></h3>
+<p>The number managing the ratio between exploration and exploitation help to encourage the MCTS to explore new branch if the number is higher. If its lower, it will maximise the exploitation of a branch that gives good scores.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;exploration_vs_exploitation&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="expansion-and-proba-min">
+<h3>3.1.8. expansion and proba_min<a class="headerlink" href="#expansion-and-proba-min" title="Permalink to this headline">¶</a></h3>
+<p>Here you can choose the expansio, you have 3 choices:</p>
+<ul class="simple">
+<li><em>“proba”</em> : the MCTS will use the probability given by the RNN model and will open the nodes with the tokens with a probability higher than <em>“proba_min”</em>.</li>
+<li><em>“all”</em> : the MCTS will open all nodes according to rules, those rules are incomplete so a lot of nodes are open on bad solution (impossibles SMILES)</li>
+<li><em>“best”</em> : the MCTS will open the best choice given by the RNN model (sometimes only 2 or 3 nodes).</li>
+</ul>
+<p>The systems <em>“best”</em> and <em>“proba”</em> rely too much on the RNN model, so when the RNN is in difficulty (generating a SMILES from a big prefix) the RNN make a lot of mistakes.</p>
+<p>The system <em>“all”</em> is currently unfinished and open to many bad nodes.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;expansion&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;proba&quot;</span>
+<span class="n">config</span><span class="p">[</span><span class="s1">&#39;proba_min&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0001</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="n-jobs-and-nb-core-dft">
+<h3>3.1.9. n_jobs and nb_core_dft<a class="headerlink" href="#n-jobs-and-nb-core-dft" title="Permalink to this headline">¶</a></h3>
+<p>This two parameters help you to parallelize the execution.</p>
+<p><em>‘n_jobs’</em> is the number of thread created during the update( when the properties of the SMILES are calculated).</p>
+<p><em>‘nb_core_dft’</em> is the number of core used during the DFT calculation with Gaussian.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># multitasking</span>
+<span class="n">config</span><span class="p">[</span><span class="s1">&#39;n_jobs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">config</span><span class="p">[</span><span class="s1">&#39;nb_core_dft&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">8</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="properties">
+<h3>3.1.10. properties<a class="headerlink" href="#properties" title="Permalink to this headline">¶</a></h3>
+<p>The properties are calculated during the update to help you give a score to a molecule. See <a class="reference external" href="create_your_properties.html">create your properties</a> to create new ones.</p>
+<p>This have to be a tuple, the first entry is the location of the property, the second is the name of the class.</p>
+<p>The property checking if a SMILES is good or bad will always be checked.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;properties&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;mcts.properties.properties&quot;</span><span class="p">,</span> <span class="s2">&quot;SAScoreProperty2DDecorator&quot;</span><span class="p">),</span>
+                        <span class="p">(</span><span class="s2">&quot;mcts.properties.properties&quot;</span><span class="p">,</span> <span class="s2">&quot;CycleProperty2DDecorator&quot;</span><span class="p">),</span>
+                        <span class="p">(</span><span class="s2">&quot;mcts.properties.properties&quot;</span><span class="p">,</span> <span class="s2">&quot;LogPProperty2DDecorator&quot;</span><span class="p">),</span>
+                        <span class="p">(</span><span class="s2">&quot;mcts.properties.properties&quot;</span><span class="p">,</span> <span class="s2">&quot;DFTPropertyDecorator&quot;</span><span class="p">),</span>
+                        <span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="scorer-and-alpha-scorer">
+<h3>3.1.11. scorer and alpha_scorer<a class="headerlink" href="#scorer-and-alpha-scorer" title="Permalink to this headline">¶</a></h3>
+<p>The scorer use the properties of a SMILES to give it a grade.</p>
+<p>The <em>‘alpha_scorer’</em> if the <em>alpha</em> of the function how calculate the reward from the score (between 1 and -1).</p>
+<div class="math notranslate nohighlight">
+\[reward = { | alpha * score | \over 1 + | alpha * score |}\]</div>
+<p>See <a class="reference external" href="create_your_scorer.html">create your scorer</a> to learn how to create a new scorer.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;scorer&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;mcts.scorer.scorer&quot;</span><span class="p">,</span> <span class="s1">&#39;ScorerValidSMILES&#39;</span><span class="p">)</span>
+<span class="n">config</span><span class="p">[</span><span class="s1">&#39;alpha_scorer&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="data-base">
+<h3>3.1.12. data_base<a class="headerlink" href="#data-base" title="Permalink to this headline">¶</a></h3>
+<p>This is the name of the data base with the results of all generated molecules located in the folder <em>‘data_out/’</em></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;data_base&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;3-21G&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="launch-the-mcts">
+<h2>3.2. Launch the MCTS<a class="headerlink" href="#launch-the-mcts" title="Permalink to this headline">¶</a></h2>
+<p>Once you have generated a json configuration file, you can use the file <em>main.py</em> to launch the MCTS with the desire configuration or use that kind of script:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># To disable TensorFlow warnings</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;TF_CPP_MIN_LOG_LEVEL&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;3&#39;</span>
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="kn">as</span> <span class="nn">tf</span>
+<span class="n">tf</span><span class="o">.</span><span class="n">logging</span><span class="o">.</span><span class="n">set_verbosity</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">logging</span><span class="o">.</span><span class="n">ERROR</span><span class="p">)</span>
+
+<span class="c1"># If you want to work with the GPU, set no_gpu to False</span>
+<span class="n">no_gpu</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="k">if</span> <span class="n">no_gpu</span><span class="p">:</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;CUDA_DEVICE_ORDER&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;PCI_BUS_ID&quot;</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;CUDA_VISIBLE_DEVICES&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+<span class="hll"><span class="kn">from</span> <span class="nn">mcts.mcts</span> <span class="kn">import</span> <span class="n">load_parameters_mcts</span><span class="p">,</span> <span class="n">launch</span>
+</span><span class="hll"><span class="n">load_parameters_mcts</span><span class="p">(</span><span class="s1">&#39;mcts_test&#39;</span><span class="p">)</span>
+</span><span class="hll"><span class="n">launch</span><span class="p">()</span>
+</span></pre></div>
+</td></tr></table></div>
+<p>After executing this code, generated data will be keep in the directory <em>‘data_out/[configuration name]/’</em>.
+This directory contain :</p>
+<p>+r*’dft/’* : a directory for DFT logs</p>
+<ul class="simple">
+<li><em>‘data.json’</em> : json file containing all generated SMILES and their properties.</li>
+<li><em>‘info.json’</em> : json file containing the number of SMILES generated, good ones, bad ones and already created ones.</li>
+<li><em>‘stat.csv’</em> : csv file containing statistics about SMILES generated at each turn, time, etc…</li>
+<li><em>‘stop.txt’</em> : text file, if you write <em>stop</em> in this file the MCTS will stop at the end of the current turn.</li>
+<li><em>‘tree.pckl’</em> : pickle file containing the tree.</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="create_your_properties.html" class="btn btn-neutral float-right" title="4. Create your properties" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="train_rnn.html" class="btn btn-neutral float-left" title="2. Train your RNN" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Cyril-Grl
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

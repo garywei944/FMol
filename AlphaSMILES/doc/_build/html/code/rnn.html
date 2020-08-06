@@ -1,0 +1,435 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>1. RNN &mdash; AlphaSMILES 0.3 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="2. MCTS" href="mcts.html" />
+    <link rel="prev" title="8. See your results" href="../tutorials/see_your_results.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> AlphaSMILES
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About this project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../requirements.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../todo.html">TODO</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/prepare_your_data.html">1. Prepare your data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/train_rnn.html">2. Train your RNN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/launch_mcts.html">3. Launch your MCTS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/create_your_properties.html">4. Create your properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/create_your_scorer.html">5. Create your scorer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/hyperparameter_rnn.html">6. Look for the best RNN parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/test_your_rnn.html">7. Test your RNN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/see_your_results.html">8. See your results</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1. RNN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mcts.html">2. MCTS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="property.html">3. Property</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scorer.html">4. Scorer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">5. Tools</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">AlphaSMILES</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>1. RNN</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/code/rnn.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-rnn.rnn">
+<span id="rnn"></span><h1>1. RNN<a class="headerlink" href="#module-rnn.rnn" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="rnn.rnn.Model">
+<em class="property">class </em><code class="descclassname">rnn.rnn.</code><code class="descname">Model</code><span class="sig-paren">(</span><em>lr=0.1</em>, <em>epochs=300</em>, <em>tokens=None</em>, <em>n=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rnn/rnn.html#Model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rnn.rnn.Model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Model using Keras</p>
+<dl class="method">
+<dt id="rnn.rnn.Model.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rnn/rnn.html#Model.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rnn.rnn.Model.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compile and fit the model</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> (<em>list of list of int</em>) – training data</li>
+<li><strong>y</strong> (<em>list of list of int</em>) – target data</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">None</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="rnn.rnn.Model.score">
+<code class="descname">score</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>sample_weight=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rnn/rnn.html#Model.score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rnn.rnn.Model.score" title="Permalink to this definition">¶</a></dt>
+<dd><p>Score the model</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> (<em>list of list of int</em>) – training data</li>
+<li><strong>y</strong> (<em>list of list of int</em>) – target data</li>
+<li><strong>sample_weight</strong> – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Score for the model</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="rnn.rnn.convert_data_to_numbers">
+<code class="descclassname">rnn.rnn.</code><code class="descname">convert_data_to_numbers</code><span class="sig-paren">(</span><em>tokens</em>, <em>smiles</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rnn/rnn.html#convert_data_to_numbers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rnn.rnn.convert_data_to_numbers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prepare data for the RNN, convert smiles into arrays of number corresponding to their index in the tokens array</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>tokens</strong> (<em>list of str</em>) – list of the tokens used</li>
+<li><strong>smiles</strong> (<em>list of str</em>) – SMILES to convert</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">input and output of the RNN, input start with a &amp; and and with n and output end with two n</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="rnn.rnn.create_rnn">
+<code class="descclassname">rnn.rnn.</code><code class="descname">create_rnn</code><span class="sig-paren">(</span><em>config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rnn/rnn.html#create_rnn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rnn.rnn.create_rnn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load config and create the RNN</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>config</strong> (<em>str</em>) – name of the config to use</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="rnn.rnn.find_tokens">
+<code class="descclassname">rnn.rnn.</code><code class="descname">find_tokens</code><span class="sig-paren">(</span><em>all_smiles</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rnn/rnn.html#find_tokens"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rnn.rnn.find_tokens" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find all different tokens from a set of data to get the grammar</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>all_smiles</strong> (<em>list of list of tokens</em>) – list of list of tokens</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">different tokens in all_smiles</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="rnn.rnn.load_model">
+<code class="descclassname">rnn.rnn.</code><code class="descname">load_model</code><span class="sig-paren">(</span><em>config_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rnn/rnn.html#load_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rnn.rnn.load_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load the architecture and weights of the RNN model(s) in the directory ‘config_name’</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>config_name</strong> (<em>str</em>) – name of the configuration (the directory name under rnn_models)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">list of loaded models</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="rnn.rnn.make_filter">
+<code class="descclassname">rnn.rnn.</code><code class="descname">make_filter</code><span class="sig-paren">(</span><em>tokens_allowed</em>, <em>cn=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rnn/rnn.html#make_filter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rnn.rnn.make_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function return a function that return True if all the tokens of the SMILES gived in parameters
+are allowed</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>tokens_allowed</strong> (<em>list of str</em>) – tokens allowed in your SMILES</li>
+<li><strong>cn</strong> (<em>bool</em>) – if you want C#N and N#C</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">function taking a SMILES as parameter and return True if the SMILES is accepted</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="rnn.rnn.parse_data">
+<code class="descclassname">rnn.rnn.</code><code class="descname">parse_data</code><span class="sig-paren">(</span><em>smiles</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rnn/rnn.html#parse_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rnn.rnn.parse_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a list of SMILES into a list of list of tokens and add a ‘&amp;’ at the beginning</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Todo:</th><td class="field-body"><p class="first">Replace this function with a parser</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Exemple:</th><td class="field-body"><div class="first highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">parse_data</span><span class="p">([</span><span class="s2">&quot;CCCCn1cccc1&quot;</span><span class="p">,</span> <span class="s2">&quot;CCc1c(C)ncnc1O&quot;</span><span class="p">,</span> <span class="s2">&quot;CCOC(=C)OCC&quot;</span><span class="p">])</span>
+<span class="go">[[&#39;&amp;&#39;, &#39;C&#39;, &#39;C&#39;, &#39;C&#39;, &#39;C&#39;, &#39;n&#39;, &#39;1&#39;, &#39;c&#39;, &#39;c&#39;, &#39;c&#39;, &#39;c&#39;, &#39;1&#39;, &#39;\n&#39;],</span>
+<span class="go">[&#39;&amp;&#39;, &#39;C&#39;, &#39;C&#39;, &#39;c&#39;, &#39;1&#39;, &#39;c&#39;, &#39;(&#39;, &#39;C&#39;, &#39;)&#39;, &#39;n&#39;, &#39;c&#39;, &#39;n&#39;, &#39;c&#39;, &#39;1&#39;, &#39;O&#39;, &#39;\n&#39;],</span>
+<span class="go">[&#39;&amp;&#39;, &#39;C&#39;, &#39;C&#39;, &#39;O&#39;, &#39;C&#39;, &#39;(&#39;, &#39;=&#39;, &#39;C&#39;, &#39;)&#39;, &#39;O&#39;, &#39;C&#39;, &#39;C&#39;, &#39;\n&#39;]]</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>smiles</strong> (<em>list of str</em>) – the list to convert</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">list of the converted SMILES</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="rnn.rnn.prepare_data">
+<code class="descclassname">rnn.rnn.</code><code class="descname">prepare_data</code><span class="sig-paren">(</span><em>config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rnn/rnn.html#prepare_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rnn.rnn.prepare_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load the SMILES file selected in the config file, filter the SMILES with the tokens allowed.
+Then return all selected SMILES and the tokens present.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>config</strong> (<em>dict</em>) – configuration for the RNN</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">list of the tokens and all selected SMILES</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="rnn.rnn.train_rnn">
+<code class="descclassname">rnn.rnn.</code><code class="descname">train_rnn</code><span class="sig-paren">(</span><em>config</em>, <em>data</em>, <em>tokens</em>, <em>number</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/rnn/rnn.html#train_rnn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rnn.rnn.train_rnn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Train one RNN, keep the best weights of the model and stop it when it doesnt learn anymore</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>config</strong> (<em>dict</em>) – config to use</li>
+<li><strong>data</strong> (<em>list of list of str</em>) – data to use to train the RNN</li>
+<li><strong>tokens</strong> (<em>list of str</em>) – list of tokens used to train the RNN</li>
+<li><strong>number</strong> (<em>int</em>) – id of the model</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">None</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="mcts.html" class="btn btn-neutral float-right" title="2. MCTS" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../tutorials/see_your_results.html" class="btn btn-neutral float-left" title="8. See your results" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Cyril-Grl
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
