@@ -1,2 +1,3 @@
 *
 !.gitignore
+!mcts_sample.json
