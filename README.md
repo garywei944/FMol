@@ -4,6 +4,10 @@ Generate SMILE molecular with AlphaSMILE, predict protein tertiary structure wit
 ## Done and Todo
 As we can tell from the descrption, there would be 3 parts of the project(molecule, protein, and mol-x-protein). I have merged and am currently working on the smile molecure generating part. 
 
+## Pre-request
+* [fpocket](https://github.com/Discngine/fpocket)
+* [Gaussian 09](http://gaussian.com/) - _Basically we need the command `g09` works. Some [instructions](https://sites.google.com/site/liuxiaogang0206xg/blog/installinggaussian09inubuntu1404)._
+
 ## Copyright Clain
 To make the project easier to deploy on the cloud, I copied and merged some repos into this project according to their licence.
 * [AlphaSMILE](https://github.com/Cyril-Grl/AlphaSMILES)
