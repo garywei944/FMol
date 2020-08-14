@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Author: @garywei944
+
 echo "
 -------------------------------
 ----- Installing fpocket ------
