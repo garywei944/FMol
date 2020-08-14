@@ -1,5 +1,6 @@
 # FMol
 A simplified drug discovery pipeline -- generating SMILE molecular with AlphaSMILE, predicting protein structure with AlphaFold, and checking the druggability with fPocket.
+![FMol](doc/images/FMol.png)
 
 ## Todo
 As we can tell from the descrption, there would be 3 parts of the project(molecule, protein, and mol-x-protein). I have merged AlphaSMILE into the repo and it should works well if the environment sets up well.
