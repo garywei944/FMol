@@ -104,6 +104,13 @@ I provide a method to convert CAPS13-RR file to contact map file that [RECONSTRU
 ###### Returns
 * None
 
+#### fpocket
+* Use the `install_fpocket.sh` shell script under `scripts` folder to install fpocket on your machine.
+* For more information check their [repo](https://github.com/Discngine/fpocket)
+
+#### Amber
+* I have not include any part of amber in this project. But it's a powerful and useful library in chemistry.
+
 
 ## What's stucked
 * The output file of alphafold comes in `.rr` [casp13-rr format](https://predictioncenter.org/casp13/index.cgi?page=format). It stores the probability of two atoms on the protein chain could contact within 8 angstroms. But fpocket only accept input file in `.pdb` format, which basically stores the 3-D coordinate information of each atom. Reconstructing reliable PDB file from the CASP13-RR file is still an unsolved problem in academic circles. [RECONSTRUCT](http://www.bioinformatics.org/owl/reconstruct/) is a third-party software using [TINKER](https://dasher.wustl.edu/tinker/) package aiming to reconstruct PDB file from `.cm` contact map file format, but does not work well. I wrote a tool to convert CASP13-RR format into contact map format(see `utils.rr_to_cm`).
