@@ -6,8 +6,8 @@ A simplified drug discovery pipeline -- generating SMILE molecular with AlphaSMI
 ## Todo
 As we can tell from the descrption, there would be 3 parts of the project(molecule, protein, and mol-x-protein). I have merged AlphaSMILES into the repo and it should works well if the environment sets up well.
 * Create `fmol.py`
-* Write more detailed documentation
 * Maybe, create visualized configurator to config `rnn` and `mcts` used in AlphaSMILES
+* Research on [Tinker](https://dasher.wustl.edu/tinker/) to reconstruct protein tertiary structure.
 
 
 ## Requirements
