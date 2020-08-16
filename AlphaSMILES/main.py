@@ -1,7 +1,7 @@
 import tensorflow as tf
 
 no_gpu = False
-train_rnn = False
+train_rnn = True
 launch_mcts = True
 no_warning = True
 
