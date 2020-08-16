@@ -13,7 +13,7 @@ for replica in 0 1 2 3; do
 		echo "Launching model: ${m} ${replica}"
 		python alphafold.py -i $TARGET_FILE -o $OUTPUT_DIR -m $MODEL_DIR -r $replica -t $m | cat &
 	done
-	wait
+#	wait
 done
 
 echo -e "All models running, waiting for them to complete\n"
