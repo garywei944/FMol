@@ -1,8 +1,8 @@
 #!/bin/bash
 
-TARGET="T1019s2"
-TARGET_FILE="test_data/${TARGET}.pkl"
-MODEL_DIR="model"
+TARGET=$1
+TARGET_FILE=$2
+MODEL_DIR=$3
 OUTPUT_DIR="${TARGET}_out"
 
 echo -e "Saving output to ${OUTPUT_DIR}/\n"

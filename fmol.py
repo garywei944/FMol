@@ -6,7 +6,6 @@ run_alphafold = True
 
 # Please set up the following variables according to your PGU
 gpu = True
-gpu_more_than_8g_memory = False
 
 # AlphaSMILES Configuration
 # If you run this project for the first time ignore the following variables. For more specific details, check readme
@@ -25,10 +24,9 @@ if run_alphasmiles:
     if os.fork():
         os.wait()
     else:
-        # from AlphaSMILES.main import launch_alphasmiles
-        # os.chdir("AlphaSMILES")
-        # launch_alphasmiles(no_gpu=not gpu, train_rnn=train_rnn, launch_mcts=launch_mcts, no_warning=no_warning)
-        print("haha")
+        from AlphaSMILES.main import launch_alphasmiles
+        os.chdir("AlphaSMILES")
+        launch_alphasmiles(no_gpu=not gpu, train_rnn=train_rnn, launch_mcts=launch_mcts, no_warning=no_warning)
         exit()
 
 if run_alphafold:
@@ -37,6 +35,5 @@ if run_alphafold:
     else:
         from alphafold_pytorch.main import launch_alphafold
         os.chdir("alphafold_pytorch")
-        launch_alphafold(target=target, target_file=target_file, model_dir=model_dir,
-                         gpu_more_than_8g_memory=gpu_more_than_8g_memory)
+        launch_alphafold(target=target, target_file=target_file, model_dir=model_dir)
         exit()
