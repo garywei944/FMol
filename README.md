@@ -4,10 +4,10 @@ A simplified drug discovery pipeline -- generating SMILE molecular with AlphaSMI
 
 
 ## Todo
-As we can tell from the descrption, there would be 3 parts of the project(molecule, protein, and mol-x-protein). I have merged AlphaSMILES into the repo and it should works well if the environment sets up well.
-* Create `fmol.py`
-* Maybe, create visualized configurator to config `rnn` and `mcts` used in AlphaSMILES
+As we can tell from the descrption, there would be 3 parts of the project(molecule, protein, and mol-x-protein). Now I stucked at reconstructing pdb protein tertiary structure from contact map.
 * Research on [Tinker](https://dasher.wustl.edu/tinker/) to reconstruct protein tertiary structure.
+* Add functions to reconstruct protein CASP-RR files in `fmol.py`.
+* Maybe, create visualized configurator to config `rnn` and `mcts` used in AlphaSMILES
 
 
 ## Requirements
@@ -75,25 +75,35 @@ Personally I develop and run this project on an Ubuntu 20.04 instance with CUDA 
 
 
 ## Usage
-### AlphaSMILES
+### Quick Start
+0. Download AlphaFold weight data from [here](https://storage.googleapis.com/alphafold_casp13_data/alphafold_casp13_weights.zip).
+0. Install Gaussian 09 and make sure `g09` works well in your terminal
+0. Extract the sample input data in `AlphaSMILES/data_in` provided in `.tar.xz` and `.tar.gz` format.
+0. Make a new subfolder `alphafold_pytorch/model` and extract the weight folders into `model`.
+0. Modify the variable in `fmol.py` according to your PC.
+0. Run `./fmol.py`
+
+### If you only want to use AlphaSMILES or AlphaFold
+#### AlphaSMILES
 Please check [doc](http://forge.info.univ-angers.fr/~cgrelier/AlphaSMILES/index.html) for usage tutorial. [Cyril-Grl](https://github.com/Cyril-Grl) has made an brilliant documentation for it. I provide some additional input data, sample configurations for `rnn` and `mcts`, and a sample output using the sample configurations. There is also a local version of the documentation if Cyril's website shuts down, it's in `AlphaSMILES/doc/_build/html/index.html`
 
-#### Quick start
+##### Quick start
 If you have Gaussian 09 set up and `g09` works well in your terminal and just want a quick start:
 1. Extract the sample input data in `AlphaSMILES/data_in` provided in `.tar.xz` and `.tar.gz` format.
 2. Change the options in `AlphaSMILES/main.py`
 3. Simply run `AlphaSMILES/main.py`
 
-### alphafold_pytorch
+#### alphafold_pytorch
 1. To run the project, you need to firstly download [pre-trained weights](http://bit.ly/alphafold-casp13-weights) from Deepmind repos.
 2. Create a folder named `model` under `alpha_fold_pytorch`
 3. Extract the weights downloaded in step 1 and move `873731`, `916425`, and `941521` 3 folders into the `model` folder.
 4. The samples inputs is provided, so simply run `./alphafold_pytorch/alphafold.sh` to run the project.
 
-#### Remarks
+##### Remarks
 1. Technically we can use original deepmind [AlphaFold](https://github.com/deepmind/deepmind-research/tree/master/alphafold_casp13) rather than alphafold_pytorch. But I got too many error warnings when I run their code and they didn't provide a good way to visualize the output. So I choose [alphafold_pytorch](https://github.com/Urinx/alphafold_pytorch) at last.
 2. For more details, check [alphafold_pytorch readme](alphafold_pytorch/README.md)
 3. If you encounter issue that says out of GPU memory, uncomment line 16 of `alphafold_pytorch/alphafold.sh`. That allows you to run 3 trainings at a time, not all 8 trainings by default.
+
 
 ### molxalpha
 #### utils.py
