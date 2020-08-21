@@ -76,12 +76,12 @@ Personally I develop and run this project on an Ubuntu 20.04 instance with CUDA 
 
 ## Usage
 ### Quick Start
-0. Download AlphaFold weight data from [here](https://storage.googleapis.com/alphafold_casp13_data/alphafold_casp13_weights.zip).
-0. Install Gaussian 09 and make sure `g09` works well in your terminal
-0. Extract the sample input data in `AlphaSMILES/data_in` provided in `.tar.xz` and `.tar.gz` format.
-0. Make a new subfolder `alphafold_pytorch/model` and extract the weight folders into `model`.
-0. Modify the variable in `fmol.py` according to your PC.
-0. Run `./fmol.py`
+1. Download AlphaFold weight data from [here](https://storage.googleapis.com/alphafold_casp13_data/alphafold_casp13_weights.zip).
+2. Install Gaussian 09 and make sure `g09` works well in your terminal
+3. Extract the sample input data in `AlphaSMILES/data_in` provided in `.tar.xz` and `.tar.gz` format.
+4. Make a new subfolder `alphafold_pytorch/model` and extract the weight folders into `model`.
+5. Modify the variable in `fmol.py` according to your PC.
+6. Run `./fmol.py`
 
 ### If you only want to use AlphaSMILES or AlphaFold
 #### AlphaSMILES
