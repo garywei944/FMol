@@ -1,3 +1,5 @@
+![FMol](doc/images/project_fmol.jpg)
+
 # FMol
 A simplified drug discovery pipeline -- generating SMILE molecular with AlphaSMILES, predicting protein structure with AlphaFold, and checking the druggability with fPocket/Amber.
 ![FMol](doc/images/FMol.png)
