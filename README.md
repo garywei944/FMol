@@ -129,7 +129,7 @@ I provide a method to convert CAPS13-RR file to contact map file that [RECONSTRU
 * Deepmind didn't open-source the procedure of protein tertiary structure prediction, especially the part of training model from CASP PDB dataset. However, it's essential to the accuracy of prediction of arbitrary protein structure. 
 
 
-## Copyright Clain
+## Copyright Claim
 To make the project easier to deploy on the cloud, I copied and merged some repos into this project according to their licence.
 * [AlphaSMILE](https://github.com/Cyril-Grl/AlphaSMILES)
 * [alphafold_pytorch](https://github.com/Urinx/alphafold_pytorch)
