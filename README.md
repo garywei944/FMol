@@ -1,3 +1,6 @@
+## Update
+I noticed that people are staring this repo recently, so I decide to resume working on it this summer and next semester. Update is coming soon.
+
 ![FMol](doc/images/project_fmol.jpg)
 
 # FMol
